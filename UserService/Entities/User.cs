@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CollectionService.Domain;
 
-namespace UserService.Domain
+namespace UserService.Entities
 {
     public class User
     {
@@ -14,7 +13,7 @@ namespace UserService.Domain
 
         public List<Collection> Collections { get; private set; }
 
-        public UserStatus UserStatus { get; private set; }
+        public UserStatus UserStatus { get; set; }
 
         public User(int id, string firstName, string lastName, List<Collection> collections, UserStatus userStatus)
         {

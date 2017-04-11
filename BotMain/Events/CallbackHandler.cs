@@ -1,12 +1,11 @@
-﻿using System.Threading.Tasks;
-using DonationMessegeBuilder;
+﻿using System;
+using System.Threading.Tasks;
 using DonationMessegeBuilder.Application;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
-using static System.String;
 
-namespace BotMain.Domain.Events
+namespace BotMain.Events
 {
     public class CallbackHandler
     {
@@ -43,13 +42,10 @@ namespace BotMain.Domain.Events
             await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
                 "Назовите цель своего пожертвование?", replyMarkup: keyboard);
 
-            MessegeHandler.Intermediate = Empty;
-
             Metka:
-            if (MessegeHandler.Intermediate != Empty)
+            if (MessegeHandler.Intermediate != String.Empty)
             {
                 _messageBuilder.BuildTarget(MessegeHandler.Intermediate);
-                MessegeHandler.Intermediate = Empty;
             }
             else
             {
@@ -60,10 +56,9 @@ namespace BotMain.Domain.Events
                 "Назовите сумму вашего пожертвования", replyMarkup: keyboard);
 
             Metka1:
-            if (MessegeHandler.Intermediate != Empty)
+            if (MessegeHandler.Intermediate != String.Empty)
             {
                 _messageBuilder.BuildDonation(MessegeHandler.Intermediate);
-                MessegeHandler.Intermediate = Empty;
             }
             else
             {
@@ -75,10 +70,9 @@ namespace BotMain.Domain.Events
                 "Назовите сроки вашего пожертвования", replyMarkup: keyboard);
 
             Metka2:
-            if (MessegeHandler.Intermediate != Empty)
+            if (MessegeHandler.Intermediate != String.Empty)
             {
                 _messageBuilder.BuildTime(MessegeHandler.Intermediate);
-                MessegeHandler.Intermediate = Empty;
             }
             else
             {

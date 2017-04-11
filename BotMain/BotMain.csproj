@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Journalist.LanguageExtensions, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Journalist.LanguageExtensions.0.15.0\lib\net451\Journalist.LanguageExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -53,10 +56,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\BotMain.cs" />
-    <Compile Include="Domain\Events\CallbackHandler.cs" />
-    <Compile Include="Domain\Events\ErrorHandler.cs" />
-    <Compile Include="Domain\Events\MessegeHandler.cs" />
+    <Compile Include="BotMain.cs" />
+    <Compile Include="Controllers\CollectionController.cs" />
+    <Compile Include="Events\CallbackHandler.cs" />
+    <Compile Include="Events\ErrorHandler.cs" />
+    <Compile Include="Events\MessegeHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -86,7 +90,7 @@
       <Name>CollectionService</Name>
     </ProjectReference>
     <ProjectReference Include="..\DonationMessegeBuilder\DonationMessageBuilder.csproj">
-      <Project>{37026c00-5c0c-495d-8a1d-35f5918607cc}</Project>
+      <Project>{37026C00-5C0C-495D-8A1D-35F5918607CC}</Project>
       <Name>DonationMessageBuilder</Name>
     </ProjectReference>
     <ProjectReference Include="..\PaymentService\PaymentService.csproj">

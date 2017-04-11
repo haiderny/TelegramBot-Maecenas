@@ -1,6 +1,6 @@
 ﻿using Telegram.Bot;
 
-namespace BotMain.Domain
+namespace BotMain
 {
     public class BotMain
     {

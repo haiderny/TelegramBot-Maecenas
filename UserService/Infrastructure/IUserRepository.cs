@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using UserService.Domain;
+using UserService.Entities;
 
 namespace UserService.Infrastructure
 {
     public interface IUserRepository
     {
-        void CreateUser(User user);
+        Task CreateUser(User user);
 
         Task<User> GetUserById(int id);
     }

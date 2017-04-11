@@ -1,12 +1,10 @@
-﻿namespace UserService.Domain
+﻿namespace UserService.Entities
 {
     public enum UserStatus
     {
         New,
-        Wait,
-        NewDonation,
         Target,
-        Donation,
+        Amount,
         Time,
     }
 }

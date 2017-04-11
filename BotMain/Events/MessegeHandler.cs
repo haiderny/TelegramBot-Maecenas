@@ -1,59 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BotMain.Controllers;
+using CollectionService.Application;
 using CollectionService.Domain;
+using Journalist;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using UserService.Domain;
-using UserService.Infrastructure;
+using UserService.Application;
+using UserService.Entities;
+using User = UserService.Entities.User;
 
-namespace BotMain.Domain.Events
+namespace BotMain.Events
 {
     public class MessegeHandler
     {
-        public static string Intermediate { get; set; }
-
         public static async void BotOnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
-            var message = messageEventArgs.Message;
+            var message = messageEventArgs?.Message;
+            Require.NotNull(message, nameof(message));
 
-            if (message == null || message.Type != MessageType.TextMessage) return;
+            var currentUser = await _userService.GetUserById(message.From.Id);
 
             switch (message.Text)
             {
                 case "/start":
                 {
-                    
-                    var user = await GetUserById(message.From.Id);
+
+                    var user = await _userService.GetUserById(message.From.Id);
                     if (user == null)
                     {
-                        var newUser = new UserService.Domain.User(message.From.Id, message.From.FirstName,
-                        message.From.LastName, new List<Collection>(), UserStatus.New);
-                        CreateUser(newUser);
+                        var newUser = new User(message.From.Id, message.From.FirstName,
+                            message.From.LastName, new List<Collection>(), UserStatus.New);
+                        await _userService.SaveUser(newUser);
                     }
                     await OnStartRoute(message);
                     break;
                 }
-                case "/get":
-                {
-                    var user = await GetUserById(message.From.Id);
-                    await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, user.FirstName + " " + user.LastName);
-                    break;
-                }
                 default:
                 {
-                    Intermediate = message.Text;
                     break;
                 }
             }
-        }
 
-        private static async Task<UserService.Domain.User> GetUserById(int id)
-        {
-            var user = await _userRepository.GetUserById(id);
-            return user;
+            switch (currentUser.UserStatus)
+            {
+                case UserStatus.Target:
+                    _collectionController.AddTargetToCollection(currentUser, message.Text);
+                break;
+            }
         }
 
         private static async Task OnStartRoute(Message message)
@@ -78,17 +75,16 @@ namespace BotMain.Domain.Events
                 string.Format("Привет, {0} {1} ,{2} {3}", message.From.FirstName, message.From.LastName,
                     Environment.NewLine, Properties.Resources.Choose), replyMarkup: keyboard);
         }
-        
-        private static void CreateUser(UserService.Domain.User user)
-        {
-            _userRepository.CreateUser(user);
-        }
 
-        private static IUserRepository _userRepository;
+        private static IUserService _userService;
+        private static ICollectionService _collectionService;
+        private static CollectionController _collectionController;
 
-        public MessegeHandler(IUserRepository userRepository)
+        public MessegeHandler(IUserService userService, ICollectionService collectionService, CollectionController collectionController)
         {
-            _userRepository = userRepository;
+            _userService = userService;
+            _collectionService = collectionService;
+            _collectionController = collectionController;
         }
     }
 }

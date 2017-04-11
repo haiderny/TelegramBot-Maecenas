@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Telegram.Bot.Args;
 
-namespace BotMain.Domain.Events
+namespace BotMain.Events
 {
     public class ErrorHandler
     {

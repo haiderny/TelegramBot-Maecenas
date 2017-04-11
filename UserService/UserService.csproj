@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Journalist.LanguageExtensions, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Journalist.LanguageExtensions.0.15.0\lib\net451\Journalist.LanguageExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,19 +43,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\UserStatus.cs" />
-    <Compile Include="Domain\User.cs" />
+    <Compile Include="Application\IUserService.cs" />
+    <Compile Include="Domain\UserService.cs" />
+    <Compile Include="Entities\UserStatus.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Infrastructure\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Application\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CollectionService\CollectionService.csproj">
       <Project>{83527d3b-66a6-4928-b9c0-054ba1031752}</Project>
       <Name>CollectionService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
