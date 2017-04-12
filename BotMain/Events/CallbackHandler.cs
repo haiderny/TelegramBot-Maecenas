@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DonationMessegeBuilder.Application;
+using Journalist;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using UserService.Application;
+using UserService.Entities;
+using UserService.Infrastructure;
 
 namespace BotMain.Events
 {
@@ -13,7 +17,7 @@ namespace BotMain.Events
         {
             var callbackQuery = callbackQueryEventArgs.CallbackQuery;
 
-            if (callbackQuery == null) return;
+            Require.NotNull(callbackQuery, nameof(callbackQuery));
 
             switch (callbackQuery.Data)
             {
@@ -42,52 +46,19 @@ namespace BotMain.Events
             await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
                 "Назовите цель своего пожертвование?", replyMarkup: keyboard);
 
-            Metka:
-            if (MessegeHandler.Intermediate != String.Empty)
-            {
-                _messageBuilder.BuildTarget(MessegeHandler.Intermediate);
-            }
-            else
-            {
-                goto Metka;
-            }
+            var user = await _userService.GetUserById(callbackQuery.From.Id);
 
-            await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                "Назовите сумму вашего пожертвования", replyMarkup: keyboard);
-
-            Metka1:
-            if (MessegeHandler.Intermediate != String.Empty)
-            {
-                _messageBuilder.BuildDonation(MessegeHandler.Intermediate);
-            }
-            else
-            {
-                goto Metka1;
-            }
-
-
-            await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                "Назовите сроки вашего пожертвования", replyMarkup: keyboard);
-
-            Metka2:
-            if (MessegeHandler.Intermediate != String.Empty)
-            {
-                _messageBuilder.BuildTime(MessegeHandler.Intermediate);
-            }
-            else
-            {
-                goto Metka2;
-            }
-
-            await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, _messageBuilder.GetResult());
-            
+            user.UserStatus = UserStatus.Target;
         }
+
+        private static IUserService _userService;
 
         private static IMessageBuilder _messageBuilder;
 
-        public CallbackHandler(IMessageBuilder messageBuilder)
+        public CallbackHandler(IMessageBuilder messageBuilder, IUserService userService)
         {
             _messageBuilder = messageBuilder;
+            _userService = userService;
         }
     }
 }

@@ -98,6 +98,10 @@
       <Project>{2b9b409c-f1a5-4db1-b632-ee449a032a16}</Project>
       <Name>BotMain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CollectionService\CollectionService.csproj">
+      <Project>{83527d3b-66a6-4928-b9c0-054ba1031752}</Project>
+      <Name>CollectionService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{2ccd17b8-e17e-4847-9863-f803839d9780}</Project>
       <Name>DataAccess</Name>

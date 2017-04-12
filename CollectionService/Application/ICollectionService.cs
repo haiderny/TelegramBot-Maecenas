@@ -7,7 +7,6 @@ namespace CollectionService.Application
     {
         Task CreateCollection(int authorId, string name);
         Collection GetCollectionById(int collectionId);
-
-        CollectionBuilder GetBuilderForCollection(int autorId);
+        CollectionMessageBuilder GetBuilderForCollection(int autorId);
     }
 }

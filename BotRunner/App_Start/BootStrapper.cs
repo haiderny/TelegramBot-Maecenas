@@ -1,4 +1,8 @@
-﻿using BotMain.Events;
+﻿using BotMain.Controllers;
+using BotMain.Events;
+using CollectionService.Application;
+using CollectionService.Domain;
+using CollectionService.Infrastructure;
 using DataAccess;
 using DataAccess.Repositories;
 using DonationMessegeBuilder;
@@ -25,6 +29,10 @@ namespace BotRunner
             container.Register(() => new MongoClient(Properties.Settings.Default.ConnectionString), Lifestyle.Singleton);
             container.Register<IUserRepository, UserRepository>(Lifestyle.Singleton);
             container.Register<IUserService, UserService.Domain.UserService>(Lifestyle.Singleton);
+            container.Register<ICollectionService, CollectionService.Domain.CollectionService>(Lifestyle.Singleton);
+            container.Register<ICollectionMessageBuilder, CollectionMessageBuilder>(Lifestyle.Singleton);
+            container.Register<CollectionController>(Lifestyle.Singleton);
+
             container.Verify();
 
             return container;

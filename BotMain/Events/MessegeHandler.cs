@@ -11,6 +11,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using UserService.Application;
 using UserService.Entities;
+using static System.Convert;
 using User = UserService.Entities.User;
 
 namespace BotMain.Events
@@ -19,7 +20,10 @@ namespace BotMain.Events
     {
         public static async void BotOnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
-            var message = messageEventArgs?.Message;
+            var message = messageEventArgs.Message;
+
+            var keyboard = new ForceReply();
+
             Require.NotNull(message, nameof(message));
 
             var currentUser = await _userService.GetUserById(message.From.Id);
@@ -28,9 +32,7 @@ namespace BotMain.Events
             {
                 case "/start":
                 {
-
-                    var user = await _userService.GetUserById(message.From.Id);
-                    if (user == null)
+                    if (currentUser == null)
                     {
                         var newUser = new User(message.From.Id, message.From.FirstName,
                             message.From.LastName, new List<Collection>(), UserStatus.New);
@@ -49,7 +51,16 @@ namespace BotMain.Events
             {
                 case UserStatus.Target:
                     _collectionController.AddTargetToCollection(currentUser, message.Text);
-                break;
+                    await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Назовите сумму вашего пожертвования", replyMarkup: keyboard);
+                    break;
+                case UserStatus.Amount:
+                    
+                    _collectionController.AddAmountToCollection(currentUser, ToInt32(message.Text));
+                    break;
+                case UserStatus.Time:
+                    await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Назовите сроки вашего пожертвования", replyMarkup: keyboard);
+                    _collectionController.AddTimeToCollection(currentUser, message.Text);
+                    break;
             }
         }
 
@@ -72,8 +83,8 @@ namespace BotMain.Events
                 });
 
             await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
-                string.Format("Привет, {0} {1} ,{2} {3}", message.From.FirstName, message.From.LastName,
-                    Environment.NewLine, Properties.Resources.Choose), replyMarkup: keyboard);
+                $"Привет, {message.From.FirstName} {message.From.LastName} ,{Environment.NewLine} {Properties.Resources.Choose}", 
+                replyMarkup: keyboard);
         }
 
         private static IUserService _userService;
