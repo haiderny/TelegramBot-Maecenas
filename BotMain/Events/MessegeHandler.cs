@@ -35,8 +35,9 @@ namespace BotMain.Events
                     if (currentUser == null)
                     {
                         var newUser = new User(message.From.Id, message.From.FirstName,
-                            message.From.LastName, new List<Collection>(), UserStatus.New);
+                            message.From.LastName, new List<Collection>(), UserStatus.New, new CollectionMessageBuilder());
                         await _userService.SaveUser(newUser);
+                        currentUser = newUser;
                     }
                     await OnStartRoute(message);
                     break;

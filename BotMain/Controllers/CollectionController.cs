@@ -1,5 +1,4 @@
-﻿using System.Dynamic;
-using CollectionService.Application;
+﻿using CollectionService.Application;
 using UserService.Application;
 using UserService.Entities;
 

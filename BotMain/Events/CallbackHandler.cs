@@ -1,13 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using DonationMessegeBuilder.Application;
+﻿using System.Threading.Tasks;
 using Journalist;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using UserService.Application;
 using UserService.Entities;
-using UserService.Infrastructure;
 
 namespace BotMain.Events
 {

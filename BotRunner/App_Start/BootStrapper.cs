@@ -2,12 +2,7 @@
 using BotMain.Events;
 using CollectionService.Application;
 using CollectionService.Domain;
-using CollectionService.Infrastructure;
-using DataAccess;
 using DataAccess.Repositories;
-using DonationMessegeBuilder;
-using DonationMessegeBuilder.Application;
-using DonationMessegeBuilder.Domain;
 using MongoDB.Driver;
 using SimpleInjector;
 using Telegram.Bot;
