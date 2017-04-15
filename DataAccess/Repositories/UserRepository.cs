@@ -22,11 +22,19 @@ namespace DataAccess.Repositories
             var filter = Builders<User>.Filter.Eq("Id", id);
             var users = await collection.Find(filter).ToListAsync();
             User user = null;
-            foreach (var p in users)
+            foreach (var findUser in users)
             {
-                user = p;
+                user = findUser;
             }
             return user;
+        }
+
+        public async Task UpdateUser(User user)
+        {
+            var database = _session.GetDatabase("telegram");
+            var collection = database.GetCollection<User>("clients");
+            var filter = Builders<User>.Filter.Eq("Id", user.Id);
+            await collection.ReplaceOneAsync(filter, user);
         }
 
         private Task SaveDocs(User user)

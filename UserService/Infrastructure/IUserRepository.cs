@@ -8,5 +8,7 @@ namespace UserService.Infrastructure
         Task CreateUser(User user);
 
         Task<User> GetUserById(int id);
+
+        Task UpdateUser(User user);
     }
 }

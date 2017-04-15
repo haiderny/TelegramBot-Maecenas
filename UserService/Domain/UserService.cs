@@ -15,6 +15,13 @@ namespace UserService.Domain
             return _userRepository.GetUserById(userId);
         }
 
+        public Task UpdateUser(User userToUpdate)
+        {
+            Require.NotNull(userToUpdate, nameof(userToUpdate));
+
+            return _userRepository.UpdateUser(userToUpdate);
+        }
+
         public Task SaveUser(User userToSave)
         {
             Require.NotNull(userToSave, nameof(userToSave));

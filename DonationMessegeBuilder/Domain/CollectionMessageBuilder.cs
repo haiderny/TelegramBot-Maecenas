@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using CollectionService.Application;
+using CollectionService.Domain;
+using ICollectionMessageBuilder = DonationMessegeBuilder.Application.ICollectionMessageBuilder;
 
-namespace CollectionService.Domain
+namespace DonationMessegeBuilder.Domain
 {
     public class CollectionMessageBuilder : ICollectionMessageBuilder
     {

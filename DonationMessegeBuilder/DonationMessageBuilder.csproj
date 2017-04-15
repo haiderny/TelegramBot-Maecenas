@@ -53,13 +53,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\IMessageBuilder.cs" />
-    <Compile Include="Domain\MessageBuilder.cs" />
+    <Compile Include="Application\ICollectionMessageBuilder.cs" />
+    <Compile Include="Domain\CollectionMessageBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CollectionService\CollectionService.csproj">
+      <Project>{83527d3b-66a6-4928-b9c0-054ba1031752}</Project>
+      <Name>CollectionService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

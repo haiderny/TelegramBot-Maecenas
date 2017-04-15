@@ -83,16 +83,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Infrastructure\" />
+    <Folder Include="Events\Infrastructure\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CollectionService\CollectionService.csproj">
       <Project>{83527d3b-66a6-4928-b9c0-054ba1031752}</Project>
       <Name>CollectionService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DonationMessegeBuilder\DonationMessageBuilder.csproj">
-      <Project>{37026C00-5C0C-495D-8A1D-35F5918607CC}</Project>
-      <Name>DonationMessageBuilder</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserService\UserService.csproj">
       <Project>{eeda9dcc-fef1-4a5a-970e-08467a09812e}</Project>

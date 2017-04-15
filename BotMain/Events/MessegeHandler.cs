@@ -41,10 +41,6 @@ namespace BotMain.Events
                     await OnStartRoute(message);
                     break;
                 }
-                default:
-                {
-                    break;
-                }
             }
 
             switch (currentUser.UserStatus)
@@ -54,7 +50,6 @@ namespace BotMain.Events
                     await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Назовите сумму вашего пожертвования", replyMarkup: keyboard);
                     break;
                 case UserStatus.Amount:
-                    
                     _collectionController.AddAmountToCollection(currentUser, ToInt32(message.Text));
                     break;
                 case UserStatus.Time:

@@ -5,8 +5,7 @@ namespace CollectionService.Application
 {
     public interface ICollectionService
     {
-        Task CreateCollection(int authorId, string name);
+        Task CreateCollection(int authorId, Collection collection);
         Collection GetCollectionById(int collectionId);
-        CollectionMessageBuilder GetBuilderForCollection(int autorId);
     }
 }

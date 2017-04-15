@@ -15,13 +15,16 @@ namespace UserService.Entities
 
         public UserStatus UserStatus { get; set; }
 
-        public User(int id, string firstName, string lastName, List<Collection> collections, UserStatus userStatus)
+        public CollectionMessageBuilder Builder { get; set; }
+
+        public User(int id, string firstName, string lastName, List<Collection> collections, UserStatus userStatus, CollectionMessageBuilder builder)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
             Collections = collections;
             UserStatus = userStatus;
+            Builder = builder;
         }
     }
 }

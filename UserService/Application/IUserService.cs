@@ -8,6 +8,7 @@ namespace UserService.Application
         Task<User> GetUserById(int userId);
 
         Task SaveUser(User userToSave);
-        //Save, some manipulations
+
+        Task UpdateUser(User user);
     }
 }

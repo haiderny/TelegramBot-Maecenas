@@ -49,15 +49,14 @@ namespace BotMain.Events
             var user = await _userService.GetUserById(callbackQuery.From.Id);
 
             user.UserStatus = UserStatus.Target;
+
+            await _userService.UpdateUser(user);
         }
 
         private static IUserService _userService;
 
-        private static IMessageBuilder _messageBuilder;
-
-        public CallbackHandler(IMessageBuilder messageBuilder, IUserService userService)
+        public CallbackHandler(IUserService userService)
         {
-            _messageBuilder = messageBuilder;
             _userService = userService;
         }
     }

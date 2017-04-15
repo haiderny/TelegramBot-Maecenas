@@ -6,5 +6,6 @@
         Target,
         Amount,
         Time,
+        Build
     }
 }
