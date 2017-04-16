@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using BotMain.Controllers;
 using CollectionService.Application;
@@ -47,19 +48,25 @@ namespace BotMain.Events
             switch (currentUser.UserStatus)
             {
                 case UserStatus.Target:
+                    currentUser.Builder = new CollectionMessageBuilder();
                     _collectionController.AddTargetToCollection(currentUser, message.Text);
                     await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Назовите сумму вашего пожертвования", replyMarkup: keyboard);
                     break;
                 case UserStatus.Amount:
                     _collectionController.AddAmountToCollection(currentUser, ToInt32(message.Text));
+                    await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Назовите сроки вашего пожертвования", replyMarkup: keyboard);
                     break;
                 case UserStatus.Time:
-                    await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Назовите сроки вашего пожертвования", replyMarkup: keyboard);
                     _collectionController.AddTimeToCollection(currentUser, message.Text);
+                    var collection = currentUser.Builder.Build();
+                    currentUser.Collections.Add(collection);
+                    await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"Цель пожертвования: {collection.Target} {Environment.NewLine}" +
+                                                                            $"Сумма пожертвования: {collection.Donation} {Environment.NewLine}" +
+                                                                            $"Сроки пожертвования: {collection.Time} {Environment.NewLine} ");
                     break;
             }
         }
-
+        
         private static async Task OnStartRoute(Message message)
         {
 

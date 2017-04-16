@@ -28,7 +28,7 @@ namespace CollectionService.Domain
 
         public Collection Build()
         {
-            var collection = new Collection(true, Target, Amount, Time, new List<string>());
+            var collection = new Collection(true, Target, Amount, Time);
             return collection;
         }
     }
