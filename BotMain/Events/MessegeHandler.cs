@@ -53,8 +53,18 @@ namespace BotMain.Events
                     await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Назовите сумму вашего пожертвования", replyMarkup: keyboard);
                     break;
                 case UserStatus.Amount:
-                    _collectionController.AddAmountToCollection(currentUser, ToInt32(message.Text));
-                    await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Назовите сроки вашего пожертвования", replyMarkup: keyboard);
+                    int amount;
+                    if (!int.TryParse(message.Text, out amount))
+                    {
+                        await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
+                            "Неверный формат данных. Введите целочисленное значение");
+                    }
+                    else
+                    {
+                        _collectionController.AddAmountToCollection(currentUser, amount);
+                        await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Назовите сроки вашего пожертвования",
+                            replyMarkup: keyboard);
+                    }
                     break;
                 case UserStatus.Time:
                     _collectionController.AddTimeToCollection(currentUser, message.Text);
