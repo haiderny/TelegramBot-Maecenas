@@ -40,6 +40,7 @@ namespace BotMain.Events
                         await _userService.SaveUser(newUser);
                         currentUser = newUser;
                     }
+                    currentUser.UserStatus = UserStatus.New;;
                     await OnStartRoute(message);
                     break;
                 }
