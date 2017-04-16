@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Journalist;
+using Journalist.Collections;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -26,6 +27,7 @@ namespace BotMain.Events
 
                 case "currentDonation":
                 {
+                    await GetCurrentDonation(callbackQuery);
                     break;
                 }
 
@@ -36,12 +38,26 @@ namespace BotMain.Events
             }
         }
 
+        private static async Task GetCurrentDonation(CallbackQuery callbackQuery)
+        {
+            var user = await _userService.GetUserById(callbackQuery.From.Id);
+            for (var i = 1; i < user.Collections.Count; i++)
+            {
+                var collection = user.Collections[i];
+                if (collection.Status)
+                {
+                    var keyboard = new InlineKeyboardMarkup(new [] {new InlineKeyboardButton(collection.Target), });
+                    await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "kek",
+                replyMarkup: keyboard);
+                }
+            }
+            
+        }
+
         private static async Task CreateDonation(CallbackQuery callbackQuery)
         {
-            var keyboard = new ForceReply();
-
             await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                "Назовите цель своего пожертвование?", replyMarkup: keyboard);
+                "Назовите цель своего пожертвование?");
 
             var user = await _userService.GetUserById(callbackQuery.From.Id);
 
