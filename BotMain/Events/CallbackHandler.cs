@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using CollectionService.Application;
 using Journalist;
 using Journalist.Collections;
 using Telegram.Bot.Args;
@@ -41,17 +42,18 @@ namespace BotMain.Events
         private static async Task GetCurrentDonation(CallbackQuery callbackQuery)
         {
             var user = await _userService.GetUserById(callbackQuery.From.Id);
+            var enumerator = 1;
             for (var i = 1; i < user.Collections.Count; i++)
             {
                 var collection = user.Collections[i];
-                if (collection.Status)
-                {
-                    var keyboard = new InlineKeyboardMarkup(new [] {new InlineKeyboardButton(collection.Target), });
-                    await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "kek",
-                replyMarkup: keyboard);
-                }
+                if (!collection.Status) continue;
+                var keyboard = new InlineKeyboardMarkup(new [] {new InlineKeyboardButton(collection.Target)});
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "пожертвование " + enumerator,
+                    replyMarkup: keyboard);
+                enumerator++;
             }
-            
+            enumerator = 0;
+
         }
 
         private static async Task CreateDonation(CallbackQuery callbackQuery)
@@ -68,8 +70,11 @@ namespace BotMain.Events
 
         private static IUserService _userService;
 
-        public CallbackHandler(IUserService userService)
+        private static ICollectionService _collectionService;
+
+        public CallbackHandler(IUserService userService, ICollectionService collectionService)
         {
+            _collectionService = collectionService;
             _userService = userService;
         }
     }

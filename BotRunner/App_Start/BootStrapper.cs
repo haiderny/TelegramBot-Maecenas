@@ -2,6 +2,7 @@
 using BotMain.Events;
 using CollectionService.Application;
 using CollectionService.Domain;
+using CollectionService.Infrastructure;
 using DataAccess.Repositories;
 using MongoDB.Driver;
 using SimpleInjector;
@@ -26,6 +27,7 @@ namespace BotRunner
             container.Register<ICollectionService, CollectionService.Domain.CollectionService>(Lifestyle.Singleton);
             container.Register<ICollectionMessageBuilder, CollectionMessageBuilder>(Lifestyle.Singleton);
             container.Register<CollectionController>(Lifestyle.Singleton);
+            container.Register<ICollectionRepository, CollectionRepository>(Lifestyle.Singleton);
 
             container.Verify();
 

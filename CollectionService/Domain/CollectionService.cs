@@ -1,19 +1,49 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CollectionService.Application;
+using CollectionService.Infrastructure;
+using MongoDB.Bson;
 
 namespace CollectionService.Domain
 {
     public class CollectionService : ICollectionService
     {
-        public Task CreateCollection(int authorId, Collection collection)
+        public async Task CreateCollection(Collection collection)
         {
-            throw new NotImplementedException();
+            await _collectionRepository.SaveCollection(collection);
         }
 
-        public Collection GetCollectionById(int collectionId)
+        public async Task<Collection> GetCollectionById(ObjectId collectionId)
         {
-            throw new System.NotImplementedException();
+            return await _collectionRepository.GetCollectionById(collectionId);
+        }
+
+        public async Task<List<Collection>> GetCurrentCollectionsByUser(int userId)
+        {
+            return await _collectionRepository.GetCurrrentCollectionsByUserId(userId);
+        }
+
+        public async Task<List<Collection>> GetCompletedCollectionsByUser(int userId)
+        {
+            return await _collectionRepository.GetCompletedCollectionsByUserId(userId);
+        }
+
+        public async Task<List<Collection>> GetAllCollectionsByUser(int userId)
+        {
+            return await _collectionRepository.GetAllCollectionsByUserId(userId);
+        }
+
+        public async Task UpdateCollection(Collection collection)
+        {
+            await _collectionRepository.UpdateCollection(collection);
+        }
+
+        private readonly ICollectionRepository _collectionRepository;
+
+        public CollectionService(ICollectionRepository collectionRepository)
+        {
+            _collectionRepository = collectionRepository;
         }
     }
 }
