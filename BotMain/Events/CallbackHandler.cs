@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CollectionService.Application;
 using Journalist;
 using Journalist.Collections;
@@ -28,7 +29,7 @@ namespace BotMain.Events
 
                 case "currentDonation":
                 {
-                    await GetCurrentDonation(callbackQuery);
+                    await GetCurrentDonations(callbackQuery);
                     break;
                 }
 
@@ -36,10 +37,21 @@ namespace BotMain.Events
                 {
                     break;
                 }
+
+                default:
+                {
+                    var currentUser = await _userService.GetUserById(callbackQuery.From.Id);
+                    var currentCollections = await _collectionService.GetCurrentCollectionsByUserId(callbackQuery.From.Id);
+                    var collection = currentCollections[int.Parse(callbackQuery.Data) - 1];
+                    await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
+                        collection.Target + Environment.NewLine +
+                        collection.Donation + Environment.NewLine + collection.Time);
+                    break;
+                }
             }
         }
 
-        private static async Task GetCurrentDonation(CallbackQuery callbackQuery)
+        private static async Task GetCurrentDonations(CallbackQuery callbackQuery)
         {
             var user = await _userService.GetUserById(callbackQuery.From.Id);
             var enumerator = 1;
@@ -47,13 +59,11 @@ namespace BotMain.Events
             {
                 var collection = user.Collections[i];
                 if (!collection.Status) continue;
-                var keyboard = new InlineKeyboardMarkup(new [] {new InlineKeyboardButton(collection.Target)});
+                var keyboard = new InlineKeyboardMarkup(new [] {new InlineKeyboardButton(collection.Target, enumerator.ToString())});
                 await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "пожертвование " + enumerator,
                     replyMarkup: keyboard);
                 enumerator++;
             }
-            enumerator = 0;
-
         }
 
         private static async Task CreateDonation(CallbackQuery callbackQuery)

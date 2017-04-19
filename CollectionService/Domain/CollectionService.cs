@@ -19,17 +19,17 @@ namespace CollectionService.Domain
             return await _collectionRepository.GetCollectionById(collectionId);
         }
 
-        public async Task<List<Collection>> GetCurrentCollectionsByUser(int userId)
+        public async Task<List<Collection>> GetCurrentCollectionsByUserId(int userId)
         {
             return await _collectionRepository.GetCurrrentCollectionsByUserId(userId);
         }
 
-        public async Task<List<Collection>> GetCompletedCollectionsByUser(int userId)
+        public async Task<List<Collection>> GetCompletedCollectionsByUserId(int userId)
         {
             return await _collectionRepository.GetCompletedCollectionsByUserId(userId);
         }
 
-        public async Task<List<Collection>> GetAllCollectionsByUser(int userId)
+        public async Task<List<Collection>> GetAllCollectionsByUserId(int userId)
         {
             return await _collectionRepository.GetAllCollectionsByUserId(userId);
         }
