@@ -1,6 +1,10 @@
-﻿using CollectionService.Application;
+﻿using System;
+using CollectionService.Application;
+using Telegram.Bot.Args;
+using Telegram.Bot.Types;
 using UserService.Application;
 using UserService.Entities;
+using User = UserService.Entities.User;
 
 namespace BotMain.Controllers
 {
@@ -21,21 +25,17 @@ namespace BotMain.Controllers
             await _userService.UpdateUser(user);
         }
 
-        public async void AddTimeToCollection(User user, string time)
+        public async void AddTimeToCollection(User user, string time, Message message)
         {
             user.Builder.AddTime(time);
             var collection = user.Builder.Build();
             user.Collections.Add(collection);
             user.UserStatus = UserStatus.New;
             await _userService.UpdateUser(user);
-        }
-
-        public async void BuildCollection(User user)
-        {
-            var collection = user.Builder.Build();
-            user.Collections.Add(collection);
-            user.UserStatus = UserStatus.New;
-            await _userService.SaveUser(user);
+            await _collectionService.CreateCollection(collection);
+            await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"Цель пожертвования: {collection.Target} {Environment.NewLine}" +
+                                                                            $"Сумма пожертвования: {collection.Donation} {Environment.NewLine}" +
+                                                                            $"Сроки пожертвования: {collection.Time} {Environment.NewLine} ");
         }
 
         private readonly ICollectionService _collectionService;

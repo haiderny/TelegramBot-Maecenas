@@ -5,7 +5,6 @@ using CollectionService.Infrastructure;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using UserService.Infrastructure;
-using UserService.Entities;
 
 namespace DataAccess.Repositories
 {
@@ -18,7 +17,7 @@ namespace DataAccess.Repositories
             return collections.InsertOneAsync(collection);
         }
 
-        public async Task<List<Collection>>  GetCurrrentCollectionsByUserId(int userId)
+        public async Task<List<Collection>> GetCurrrentCollectionsByUserId(int userId)
         {
             var currentCollections = new List<Collection>();
             var user = await _userRepository.GetUserById(userId);
@@ -52,7 +51,7 @@ namespace DataAccess.Repositories
         {
             var allCollections = new List<Collection>();
             var user = await _userRepository.GetUserById(userId);
-            for (var i = 1; i < user.Collections.Count; i++)
+            for (var i = 0; i < user.Collections.Count; i++)
             {
                 var collection = user.Collections[i];
                 allCollections.Add(collection);
@@ -61,26 +60,27 @@ namespace DataAccess.Repositories
 
         }
 
-        public async Task UpdateCollection(Collection collection, int authorId)
+        public async Task UpdateCollection(Collection collection)
         {
             var database = _session.GetDatabase("telegram");
-            var collections = database.GetCollection<User>("clients");
-            var allCollections = await  GetAllCollectionsByUserId(authorId);
-            foreach (var VARIABLE in allCollections)
-            {
-                
-            }
+            var collections = database.GetCollection<Collection>("collections");
+            var filter = Builders<Collection>.Filter.Eq("Id", collection._id);
+            await collections.ReplaceOneAsync(filter, collection);
         }
 
-        public async Task<Collection> GetCollectionById(int authorId, string id)
+        public async Task<Collection> GetCollectionById(string id)
         {
-            var allCollections = await GetAllCollectionsByUserId(authorId);
-            foreach (var collection in allCollections)
+            var objectid = new ObjectId(id);
+            var database = _session.GetDatabase("telegram");
+            var collections = database.GetCollection<Collection>("collections");
+            var filter = Builders<Collection>.Filter.Eq("_id", objectid);
+            var allCollections = await collections.Find(filter).ToListAsync();
+            Collection collection = null;
+            foreach (var findcollection in allCollections)
             {
-                if(collection._id != id) continue;
-                return collection;
+                collection = findcollection;
             }
-            
+            return collection;
         }
 
         private readonly MongoClient _session;

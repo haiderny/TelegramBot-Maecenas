@@ -68,13 +68,8 @@ namespace BotMain.Events
                     }
                     break;
                 case UserStatus.Time:
-                    _collectionController.AddTimeToCollection(currentUser, message.Text);
-                    var collection = currentUser.Builder.Build();
-                    currentUser.Collections.Add(collection);
-                    await _collectionService.CreateCollection(collection);
-                    await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"Цель пожертвования: {collection.Target} {Environment.NewLine}" +
-                                                                            $"Сумма пожертвования: {collection.Donation} {Environment.NewLine}" +
-                                                                            $"Сроки пожертвования: {collection.Time} {Environment.NewLine} ");
+                    _collectionController.AddTimeToCollection(currentUser, message.Text, message);
+                    await OnStartRoute(message);
                     break;
             }
         }

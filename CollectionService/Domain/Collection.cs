@@ -7,7 +7,6 @@ namespace CollectionService.Domain
 {
     public class Collection
     {
-        [BsonId]
         public string _id { get; set; }
         public bool Status { get; private set; }
         public string Target { get; private set; }

@@ -36,10 +36,9 @@ namespace BotMain.Events
                     
                 case "historyOfDonations":
                 {
+                    await GetAllDonations(callbackQuery);
                     break;
                 }
-                
-                
 
                 default:
                 {
@@ -59,7 +58,7 @@ namespace BotMain.Events
             foreach (var collection in allCollections)
             {
                 var keyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardButton(collection.Target, collection._id) });
-                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "пожертвование " + enumerator,
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Пожертвование " + enumerator,
                     replyMarkup: keyboard);
                 enumerator++;
             }
