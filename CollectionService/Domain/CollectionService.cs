@@ -14,7 +14,7 @@ namespace CollectionService.Domain
             await _collectionRepository.SaveCollection(collection);
         }
 
-        public async Task<Collection> GetCollectionById(ObjectId collectionId)
+        public async Task<Collection> GetCollectionById(string collectionId)
         {
             return await _collectionRepository.GetCollectionById(collectionId);
         }

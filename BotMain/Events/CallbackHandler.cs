@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CollectionService.Application;
+using CollectionService.Domain;
 using Journalist;
 using Journalist.Collections;
 using Telegram.Bot.Args;
@@ -32,17 +33,17 @@ namespace BotMain.Events
                     await GetCurrentDonations(callbackQuery);
                     break;
                 }
-
+                    
                 case "historyOfDonations":
                 {
                     break;
                 }
+                
+                
 
                 default:
                 {
-                    var currentUser = await _userService.GetUserById(callbackQuery.From.Id);
-                    var currentCollections = await _collectionService.GetCurrentCollectionsByUserId(callbackQuery.From.Id);
-                    var collection = currentCollections[int.Parse(callbackQuery.Data) - 1];
+                    var collection = await _collectionService.GetCollectionById(callbackQuery.Data);
                     await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
                         collection.Target + Environment.NewLine +
                         collection.Donation + Environment.NewLine + collection.Time);
@@ -51,15 +52,27 @@ namespace BotMain.Events
             }
         }
 
+        private static async Task GetAllDonations(CallbackQuery callbackQuery)
+        {
+            var allCollections = await _collectionService.GetAllCollectionsByUserId(callbackQuery.From.Id);
+            var enumerator = 1;
+            foreach (var collection in allCollections)
+            {
+                var keyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardButton(collection.Target, collection._id) });
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "пожертвование " + enumerator,
+                    replyMarkup: keyboard);
+                enumerator++;
+            }
+        }
+
         private static async Task GetCurrentDonations(CallbackQuery callbackQuery)
         {
             var user = await _userService.GetUserById(callbackQuery.From.Id);
             var enumerator = 1;
-            for (var i = 1; i < user.Collections.Count; i++)
+            foreach (var collection in user.Collections)
             {
-                var collection = user.Collections[i];
                 if (!collection.Status) continue;
-                var keyboard = new InlineKeyboardMarkup(new [] {new InlineKeyboardButton(collection.Target, enumerator.ToString())});
+                var keyboard = new InlineKeyboardMarkup(new [] {new InlineKeyboardButton(collection.Target, collection._id)});
                 await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "пожертвование " + enumerator,
                     replyMarkup: keyboard);
                 enumerator++;

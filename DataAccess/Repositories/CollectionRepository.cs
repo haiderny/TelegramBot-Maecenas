@@ -5,6 +5,7 @@ using CollectionService.Infrastructure;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using UserService.Infrastructure;
+using UserService.Entities;
 
 namespace DataAccess.Repositories
 {
@@ -60,26 +61,26 @@ namespace DataAccess.Repositories
 
         }
 
-        public async Task UpdateCollection(Collection collection)
+        public async Task UpdateCollection(Collection collection, int authorId)
         {
             var database = _session.GetDatabase("telegram");
-            var collections = database.GetCollection<Collection>("collections");
-            var filter = Builders<Collection>.Filter.Eq("Id", collection.Id);
-            await collections.ReplaceOneAsync(filter, collection);
+            var collections = database.GetCollection<User>("clients");
+            var allCollections = await  GetAllCollectionsByUserId(authorId);
+            foreach (var VARIABLE in allCollections)
+            {
+                
+            }
         }
 
-        public async Task<Collection> GetCollectionById(ObjectId id)
+        public async Task<Collection> GetCollectionById(int authorId, string id)
         {
-            var database = _session.GetDatabase("telegram");
-            var collections = database.GetCollection<Collection>("collections");
-            var filter = Builders<Collection>.Filter.Eq("Id", id);
-            var allCollections = await collections.Find(filter).ToListAsync();
-            Collection collection = null;
-            foreach (var findcollection in allCollections)
+            var allCollections = await GetAllCollectionsByUserId(authorId);
+            foreach (var collection in allCollections)
             {
-                collection = findcollection;
+                if(collection._id != id) continue;
+                return collection;
             }
-            return collection;
+            
         }
 
         private readonly MongoClient _session;
