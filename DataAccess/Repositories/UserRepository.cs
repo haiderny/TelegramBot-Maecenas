@@ -7,12 +7,6 @@ namespace DataAccess.Repositories
 {
     public class UserRepository : IUserRepository
     {
-
-        public Task CreateUser(User user)
-        {
-            return SaveDocs(user);
-        }
-
         public async Task<User> GetUserById(int id)
         {
             var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
@@ -35,7 +29,7 @@ namespace DataAccess.Repositories
             await collection.ReplaceOneAsync(filter, user);
         }
 
-        private Task SaveDocs(User user)
+        public Task CreateUser(User user)
         {
             var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
             var collection = database.GetCollection<User>($"{Properties.Resources.nameOfCollectionUsers}");
