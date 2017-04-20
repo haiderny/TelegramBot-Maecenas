@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using BotMain.Controllers;
 using CollectionService.Application;
@@ -12,7 +11,6 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using UserService.Application;
 using UserService.Entities;
-using static System.Convert;
 using User = UserService.Entities.User;
 
 namespace BotMain.Events
@@ -51,19 +49,19 @@ namespace BotMain.Events
                 case UserStatus.Target:
                     currentUser.Builder = new CollectionMessageBuilder();
                     _collectionController.AddTargetToCollection(currentUser, message.Text);
-                    await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Назовите сумму вашего пожертвования", replyMarkup: keyboard);
+                    await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.AmountDonation}", replyMarkup: keyboard);
                     break;
                 case UserStatus.Amount:
                     int amount;
                     if (!int.TryParse(message.Text, out amount))
                     {
                         await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
-                            "Неверный формат данных. Введите целочисленное значение");
+                            $"{Properties.Resources.TypeException}");
                     }
                     else
                     {
                         _collectionController.AddAmountToCollection(currentUser, amount);
-                        await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Назовите сроки вашего пожертвования",
+                        await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.TimeDonation}",
                             replyMarkup: keyboard);
                     }
                     break;
@@ -83,17 +81,17 @@ namespace BotMain.Events
             {
                     new[]
                     {
-                        new InlineKeyboardButton("Новое пожертвование", "newDonation"),
-                        new InlineKeyboardButton("Текущее пожертвование", "currentDonation"),
+                        new InlineKeyboardButton($"{Properties.Resources.NewDonationButton}", $"{Properties.Resources.NewCallbackDonation}"),
+                        new InlineKeyboardButton($"{Properties.Resources.CurrentDonationButton}", $"{Properties.Resources.CallbackCurrentDonation}"),
                     },
                     new[]
                     {
-                        new InlineKeyboardButton("История пожертвований", "historyOfDonations"),
+                        new InlineKeyboardButton($"{Properties.Resources.HistoryOfDonationsButton}", $"{Properties.Resources.CallbackHistoryOfDonations}"),
                     }
                 });
 
             await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
-                $"Привет, {message.From.FirstName} {message.From.LastName} ,{Environment.NewLine} {Properties.Resources.Choose}", 
+                $"{Properties.Resources.Hello} {message.From.FirstName} {message.From.LastName} ,{Environment.NewLine} {Properties.Resources.Choose}", 
                 replyMarkup: keyboard);
         }
 

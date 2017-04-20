@@ -4,7 +4,7 @@ namespace BotMain
 {
     public class BotMain
     {
-        public static TelegramBotClient Bot { get; set; }
+        public static TelegramBotClient Bot { get; private set; }
 
         public BotMain(TelegramBotClient bot)
         {

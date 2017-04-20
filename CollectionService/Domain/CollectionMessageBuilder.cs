@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CollectionService.Application;
+﻿using CollectionService.Application;
 
 namespace CollectionService.Domain
 {

@@ -12,8 +12,8 @@ namespace DataAccess.Repositories
     {
         public Task SaveCollection(Collection collection)
         {
-            var database = _session.GetDatabase("telegram");
-            var collections = database.GetCollection<Collection>("collections");
+            var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
+            var collections = database.GetCollection<Collection>($"{Properties.Resources.nameOfCollectionDonations}");
             return collections.InsertOneAsync(collection);
         }
 
@@ -62,17 +62,17 @@ namespace DataAccess.Repositories
 
         public async Task UpdateCollection(Collection collection)
         {
-            var database = _session.GetDatabase("telegram");
-            var collections = database.GetCollection<Collection>("collections");
-            var filter = Builders<Collection>.Filter.Eq("Id", collection._id);
+            var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
+            var collections = database.GetCollection<Collection>($"{Properties.Resources.nameOfCollectionDonations}");
+            var filter = Builders<Collection>.Filter.Eq("Id", collection.Id);
             await collections.ReplaceOneAsync(filter, collection);
         }
 
         public async Task<Collection> GetCollectionById(string id)
         {
             var objectid = new ObjectId(id);
-            var database = _session.GetDatabase("telegram");
-            var collections = database.GetCollection<Collection>("collections");
+            var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
+            var collections = database.GetCollection<Collection>($"{Properties.Resources.nameOfCollectionDonations}");
             var filter = Builders<Collection>.Filter.Eq("_id", objectid);
             var allCollections = await collections.Find(filter).ToListAsync();
             Collection collection = null;

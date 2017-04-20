@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CollectionService.Domain;
-using MongoDB.Bson;
 
 namespace CollectionService.Infrastructure
 {

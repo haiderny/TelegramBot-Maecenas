@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CollectionService.Application;
 using CollectionService.Infrastructure;
-using MongoDB.Bson;
 
 namespace CollectionService.Domain
 {

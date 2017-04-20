@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using MongoDB.Bson;
+﻿using System.Threading.Tasks;
 using MongoDB.Driver;
 using UserService.Entities;
 using UserService.Infrastructure;
@@ -17,8 +15,8 @@ namespace DataAccess.Repositories
 
         public async Task<User> GetUserById(int id)
         {
-            var database = _session.GetDatabase("telegram");
-            var collection = database.GetCollection<User>("clients");
+            var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
+            var collection = database.GetCollection<User>($"{Properties.Resources.nameOfCollectionUsers}");
             var filter = Builders<User>.Filter.Eq("Id", id);
             var users = await collection.Find(filter).ToListAsync();
             User user = null;
@@ -31,16 +29,16 @@ namespace DataAccess.Repositories
 
         public async Task UpdateUser(User user)
         {
-            var database = _session.GetDatabase("telegram");
-            var collection = database.GetCollection<User>("clients");
+            var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
+            var collection = database.GetCollection<User>($"{Properties.Resources.nameOfCollectionUsers}");
             var filter = Builders<User>.Filter.Eq("Id", user.Id);
             await collection.ReplaceOneAsync(filter, user);
         }
 
         private Task SaveDocs(User user)
         {
-            var database = _session.GetDatabase("telegram");
-            var collection = database.GetCollection<User>("clients");
+            var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
+            var collection = database.GetCollection<User>($"{Properties.Resources.nameOfCollectionUsers}");
             return collection.InsertOneAsync(user);
         }
 

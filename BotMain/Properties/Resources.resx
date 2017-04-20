@@ -117,7 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Amount" xml:space="preserve">
+    <value>Сумма пожертвования:</value>
+  </data>
+  <data name="AmountDonation" xml:space="preserve">
+    <value>Назовите сумму вашего пожертвования</value>
+  </data>
+  <data name="CallbackCurrentDonation" xml:space="preserve">
+    <value>currentDonation</value>
+  </data>
+  <data name="CallbackHistoryOfDonations" xml:space="preserve">
+    <value>historyOfDonations</value>
+  </data>
   <data name="Choose" xml:space="preserve">
     <value>Укажите ваше дальнейшее действие:</value>
+  </data>
+  <data name="CurrentDonationButton" xml:space="preserve">
+    <value>Текущее пожертвование</value>
+  </data>
+  <data name="Donation" xml:space="preserve">
+    <value>Пожертвование</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Привет,</value>
+  </data>
+  <data name="HistoryOfDonationsButton" xml:space="preserve">
+    <value>История пожертвований</value>
+  </data>
+  <data name="NewCallbackDonation" xml:space="preserve">
+    <value>newDonation</value>
+  </data>
+  <data name="NewDonation" xml:space="preserve">
+    <value>Назовите цель своего пожертвование?</value>
+  </data>
+  <data name="NewDonationButton" xml:space="preserve">
+    <value>Новое пожертвование</value>
+  </data>
+  <data name="Target" xml:space="preserve">
+    <value>Цель пожертвования:</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Сроки пожертвования:</value>
+  </data>
+  <data name="TimeDonation" xml:space="preserve">
+    <value>Назовите сроки вашего пожертвования</value>
+  </data>
+  <data name="TypeException" xml:space="preserve">
+    <value>Неверный формат данных. Введите целочисленное значение</value>
   </data>
 </root>

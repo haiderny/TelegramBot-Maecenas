@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CollectionService.Domain;
-using Microsoft.Win32;
-using MongoDB.Bson;
 
 namespace CollectionService.Application
 {

@@ -57,8 +57,8 @@ namespace BotMain.Events
             var enumerator = 1;
             foreach (var collection in allCollections)
             {
-                var keyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardButton(collection.Target, collection._id) });
-                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Пожертвование " + enumerator,
+                var keyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardButton(collection.Target, collection.Id) });
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"{Properties.Resources.Donation} {enumerator}",
                     replyMarkup: keyboard);
                 enumerator++;
             }
@@ -71,8 +71,8 @@ namespace BotMain.Events
             foreach (var collection in user.Collections)
             {
                 if (!collection.Status) continue;
-                var keyboard = new InlineKeyboardMarkup(new [] {new InlineKeyboardButton(collection.Target, collection._id)});
-                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "пожертвование " + enumerator,
+                var keyboard = new InlineKeyboardMarkup(new [] {new InlineKeyboardButton(collection.Target, collection.Id)});
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"{Properties.Resources.Donation} {enumerator}",
                     replyMarkup: keyboard);
                 enumerator++;
             }
@@ -81,7 +81,7 @@ namespace BotMain.Events
         private static async Task CreateDonation(CallbackQuery callbackQuery)
         {
             await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                "Назовите цель своего пожертвование?");
+                $"{Properties.Resources.NewDonation}");
 
             var user = await _userService.GetUserById(callbackQuery.From.Id);
 
