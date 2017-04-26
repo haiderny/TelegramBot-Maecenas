@@ -1,5 +1,5 @@
 ﻿using System;
-using CollectionService.Application;
+using CollectionService.Domain;
 using Telegram.Bot.Types;
 using UserService.Application;
 using UserService.Entities;
@@ -10,39 +10,48 @@ namespace BotMain.Controllers
     public class CollectionController
     {
 
-        public async void AddTargetToCollection(User user, string name)
+        public async void AddTargetToCollection(User user, Message message)
         {
-            user.Builder.AddTarget(name);
+            user.Builder = new CollectionMessageBuilder();
+            user.Builder.AddTarget(message.Text);
             user.UserStatus = UserStatus.Amount;
             await _userService.UpdateUser(user);
+            await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.AmountDonation}");
         }
 
-        public async void AddAmountToCollection(User user, int amount)
+        public async void AddAmountToCollection(User user, Message message)
         {
-            user.Builder.AddAmount(amount);
-            user.UserStatus = UserStatus.Time;
-            await _userService.UpdateUser(user);
+            int amount;
+            if (!int.TryParse(message.Text, out amount))
+            {
+                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
+                    $"{Properties.Resources.TypeException}");
+            }
+            else
+            {
+                user.Builder.AddAmount(amount);
+                user.UserStatus = UserStatus.Time;
+                await _userService.UpdateUser(user);
+                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.TimeDonation}");
+            }
         }
 
-        public async void AddTimeToCollection(User user, string time, Message message)
+        public async void AddTimeToCollection(User user, Message message)
         {
-            user.Builder.AddTime(time);
+            user.Builder.AddTime(message.Text);
             var collection = user.Builder.Build();
             user.Collections.Add(collection);
             user.UserStatus = UserStatus.New;
             await _userService.UpdateUser(user);
-            await _collectionService.CreateCollection(collection);
             await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.Target} {collection.Target} {Environment.NewLine}" +
-                                                                            $"{Properties.Resources.Amount} {collection.Donation} {Environment.NewLine}" +
-                                                                            $"{Properties.Resources.Time} {collection.Time} {Environment.NewLine} ");
+                                                                    $"{Properties.Resources.Amount} {collection.Donation} {Environment.NewLine}" +
+                                                                    $"{Properties.Resources.Time} {collection.Time} {Environment.NewLine} ");
         }
 
-        private readonly ICollectionService _collectionService;
         private readonly IUserService _userService;
 
-        public CollectionController(ICollectionService collectionService, IUserService userService)
+        public CollectionController(IUserService userService)
         {
-            _collectionService = collectionService;
             _userService = userService;
         }
     }

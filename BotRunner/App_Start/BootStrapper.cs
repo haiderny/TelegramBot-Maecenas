@@ -21,7 +21,7 @@ namespace BotRunner
             var mongoClient = new MongoClient(Properties.Settings.Default.ConnectionString);
             container.Register(() => new TelegramBotClient(Properties.Settings.Default.Token), Lifestyle.Singleton);
             container.Register<BotMain.BotMain>(Lifestyle.Singleton);
-            container.Register<MessegeHandler>(Lifestyle.Singleton);
+            container.Register<MessageHandler>(Lifestyle.Singleton);
             container.Register<CallbackHandler>(Lifestyle.Singleton);
             container.Register<ErrorHandler>(Lifestyle.Singleton);
             container.Register(() => mongoClient, Lifestyle.Singleton);
@@ -43,10 +43,8 @@ namespace BotRunner
             var session = mongoClient;
             var database = session.GetDatabase($"{Properties.Settings.Default.DbName}");
             var users = database.GetCollection<User>();
-            var collections = database.GetCollection<Collection>();
 
             container.Register(() => users, Lifestyle.Singleton);
-            container.Register(() => collections, Lifestyle.Singleton);
             return container;
         }
     }

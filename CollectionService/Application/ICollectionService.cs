@@ -6,12 +6,10 @@ namespace CollectionService.Application
 {
     public interface ICollectionService
     {
-        Task CreateCollection(Collection collection);
-        Task<Collection> GetCollectionById(string collectionId);
+        Task<Collection> GetCollectionById(string collectionId, int userId);
         Task<IEnumerable<Collection>> GetCurrentCollectionsByUserId(int userId);
-        Task<IEnumerable<Collection>> GetCompletedCollectionsByUserId(int userId);
         Task<IEnumerable<Collection>> GetAllCollectionsByUserId(int userId);
-        Task UpdateCollection(Collection collection);
+        Task UpdateCollection(Collection collection, int userId);
 
     }
 }

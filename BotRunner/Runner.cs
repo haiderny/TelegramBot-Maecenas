@@ -11,7 +11,7 @@ namespace BotRunner
             BootStrapper.Start(container);
 
             BotMain.BotMain.Bot.OnCallbackQuery += CallbackHandler.BotOnReceivedCallback;
-            BotMain.BotMain.Bot.OnMessage += MessegeHandler.BotOnMessageReceived;
+            BotMain.BotMain.Bot.OnMessage += MessageHandler.BotOnMessageReceived;
             BotMain.BotMain.Bot.OnReceiveError += ErrorHandler.BotOnErrorReceived;
 
             BotMain.BotMain.Bot.StartReceiving();
