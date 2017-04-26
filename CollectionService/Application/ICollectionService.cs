@@ -8,9 +8,9 @@ namespace CollectionService.Application
     {
         Task CreateCollection(Collection collection);
         Task<Collection> GetCollectionById(string collectionId);
-        Task<List<Collection>> GetCurrentCollectionsByUserId(int userId);
-        Task<List<Collection>> GetCompletedCollectionsByUserId(int userId);
-        Task<List<Collection>> GetAllCollectionsByUserId(int userId);
+        Task<IEnumerable<Collection>> GetCurrentCollectionsByUserId(int userId);
+        Task<IEnumerable<Collection>> GetCompletedCollectionsByUserId(int userId);
+        Task<IEnumerable<Collection>> GetAllCollectionsByUserId(int userId);
         Task UpdateCollection(Collection collection);
 
     }

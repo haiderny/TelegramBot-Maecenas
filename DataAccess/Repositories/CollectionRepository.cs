@@ -1,9 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CollectionService.Domain;
 using CollectionService.Infrastructure;
+using Journalist;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
+using UserService.Entities;
 using UserService.Infrastructure;
 
 namespace DataAccess.Repositories
@@ -12,85 +18,64 @@ namespace DataAccess.Repositories
     {
         public Task SaveCollection(Collection collection)
         {
-            var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
-            var collections = database.GetCollection<Collection>($"{Properties.Resources.nameOfCollectionDonations}");
-            return collections.InsertOneAsync(collection);
+            return _donationCollection.InsertOneAsync(collection);
         }
 
-        public async Task<List<Collection>> GetCurrrentCollectionsByUserId(int userId)
+        public async Task<IEnumerable<Collection>> GetCurrrentCollectionsByUserId(int userId)
         {
-            var currentCollections = new List<Collection>();
+            Require.Positive(userId, nameof(userId));
+
             var user = await _userRepository.GetUserById(userId);
-            for (var i = 1; i < user.Collections.Count; i++)
-            {
-                var collection = user.Collections[i];
-                if (collection.Status)
-                {
-                    currentCollections.Add(collection);
-                }
-            }
-            return currentCollections;
+            return user.Collections.Where(collection => collection.Status);
         }
 
-        public async Task<List<Collection>> GetCompletedCollectionsByUserId(int userId)
+        public async Task<IEnumerable<Collection>> GetCompletedCollectionsByUserId(int userId)
         {
-            var completedCollections = new List<Collection>();
+            Require.Positive(userId, nameof(userId));
+
             var user = await _userRepository.GetUserById(userId);
-            for (var i = 1; i < user.Collections.Count; i++)
-            {
-                var collection = user.Collections[i];
-                if (!collection.Status)
-                {
-                    completedCollections.Add(collection);
-                }
-            }
-            return completedCollections;
+            
+            return user.Collections.Where(collection => !collection.Status);
         }
 
-        public async Task<List<Collection>> GetAllCollectionsByUserId(int userId)
+        public async Task<IEnumerable<Collection>> GetAllCollectionsByUserId(int userId)
         {
-            var allCollections = new List<Collection>();
+            Require.Positive(userId, nameof(userId));
+
             var user = await _userRepository.GetUserById(userId);
-            for (var i = 0; i < user.Collections.Count; i++)
-            {
-                var collection = user.Collections[i];
-                allCollections.Add(collection);
-            }
-            return allCollections;
+            return user.Collections;
 
         }
 
         public async Task UpdateCollection(Collection collection)
         {
-            var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
-            var collections = database.GetCollection<Collection>($"{Properties.Resources.nameOfCollectionDonations}");
+            Require.NotNull(collection, nameof(collection));
+
             var filter = Builders<Collection>.Filter.Eq("Id", collection.Id);
-            await collections.ReplaceOneAsync(filter, collection);
+            await _donationCollection.ReplaceOneAsync(filter, collection);
+        }
+
+        public async Task<IEnumerable<Collection>> GetCollections(Expression<Func<Collection, bool>> predicate = null)
+        {
+            return predicate != null ?
+            await _donationCollection.Find(predicate).ToListAsync() :
+            await _donationCollection.Find(c => true).ToListAsync();
         }
 
         public async Task<Collection> GetCollectionById(string id)
         {
-            var objectid = new ObjectId(id);
-            var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
-            var collections = database.GetCollection<Collection>($"{Properties.Resources.nameOfCollectionDonations}");
-            var filter = Builders<Collection>.Filter.Eq("_id", objectid);
-            var allCollections = await collections.Find(filter).ToListAsync();
-            Collection collection = null;
-            foreach (var findcollection in allCollections)
-            {
-                collection = findcollection;
-            }
-            return collection;
+            Require.NotEmpty(id, nameof(id));
+
+            return await _donationCollection.AsQueryable().SingleOrDefaultAsync(collection => collection.Id == id);
         }
 
-        private readonly MongoClient _session;
-
+        private readonly IMongoCollection<Collection> _donationCollection;
         private readonly IUserRepository _userRepository;
 
-        public CollectionRepository(MongoClient session, IUserRepository userRepository)
+        public CollectionRepository(IUserRepository userRepository, IMongoCollection<Collection> donationCollection)
         {
             _userRepository = userRepository;
-            _session = session;
+            _donationCollection = donationCollection;
         }
 
        

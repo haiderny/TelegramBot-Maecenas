@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Journalist;
 using MongoDB.Driver;
 using UserService.Entities;
 using UserService.Infrastructure;
@@ -9,38 +10,30 @@ namespace DataAccess.Repositories
     {
         public async Task<User> GetUserById(int id)
         {
-            var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
-            var collection = database.GetCollection<User>($"{Properties.Resources.nameOfCollectionUsers}");
-            var filter = Builders<User>.Filter.Eq("Id", id);
-            var users = await collection.Find(filter).ToListAsync();
-            User user = null;
-            foreach (var findUser in users)
-            {
-                user = findUser;
-            }
-            return user;
+            Require.Positive(id, nameof(id));
+
+            return await _userCollection.Find(user => user.Id == id).SingleOrDefaultAsync();
         }
 
         public async Task UpdateUser(User user)
         {
-            var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
-            var collection = database.GetCollection<User>($"{Properties.Resources.nameOfCollectionUsers}");
+
             var filter = Builders<User>.Filter.Eq("Id", user.Id);
-            await collection.ReplaceOneAsync(filter, user);
+            await _userCollection.ReplaceOneAsync(filter, user);
         }
 
         public Task CreateUser(User user)
         {
-            var database = _session.GetDatabase($"{Properties.Resources.nameOfDatabase}");
-            var collection = database.GetCollection<User>($"{Properties.Resources.nameOfCollectionUsers}");
-            return collection.InsertOneAsync(user);
+            Require.NotNull(user, nameof(user));
+
+            return _userCollection.InsertOneAsync(user);
         }
+        
+        private readonly IMongoCollection<User> _userCollection;
 
-        private readonly MongoClient _session;
-
-        public UserRepository(MongoClient session)
+        public UserRepository(IMongoCollection<User> userCollection)
         {
-            _session = session;
+            _userCollection = userCollection;
         }
     }
 }

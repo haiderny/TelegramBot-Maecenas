@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using CollectionService.Domain;
 
@@ -8,9 +10,11 @@ namespace CollectionService.Infrastructure
     {
         Task SaveCollection(Collection collection);
         Task<Collection> GetCollectionById(string id);
-        Task<List<Collection>> GetCurrrentCollectionsByUserId(int userId);
-        Task<List<Collection>> GetCompletedCollectionsByUserId(int userId);
-        Task<List<Collection>> GetAllCollectionsByUserId(int userId);
+        Task<IEnumerable<Collection>> GetCurrrentCollectionsByUserId(int userId);
+        Task<IEnumerable<Collection>> GetCompletedCollectionsByUserId(int userId);
+        Task<IEnumerable<Collection>> GetAllCollectionsByUserId(int userId);
         Task UpdateCollection(Collection collection);
+
+        Task<IEnumerable<Collection>> GetCollections(Expression<Func<Collection, bool>> predicate);
     }
 }

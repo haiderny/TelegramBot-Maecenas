@@ -3,11 +3,13 @@ using BotMain.Events;
 using CollectionService.Application;
 using CollectionService.Domain;
 using CollectionService.Infrastructure;
+using DataAccess;
 using DataAccess.Repositories;
 using MongoDB.Driver;
 using SimpleInjector;
 using Telegram.Bot;
 using UserService.Application;
+using UserService.Entities;
 using UserService.Infrastructure;
 
 namespace BotRunner
@@ -16,12 +18,13 @@ namespace BotRunner
     {
         public static Container Start(Container container)
         {
+            var mongoClient = new MongoClient(Properties.Settings.Default.ConnectionString);
             container.Register(() => new TelegramBotClient(Properties.Settings.Default.Token), Lifestyle.Singleton);
             container.Register<BotMain.BotMain>(Lifestyle.Singleton);
             container.Register<MessegeHandler>(Lifestyle.Singleton);
             container.Register<CallbackHandler>(Lifestyle.Singleton);
             container.Register<ErrorHandler>(Lifestyle.Singleton);
-            container.Register(() => new MongoClient(Properties.Settings.Default.ConnectionString), Lifestyle.Singleton);
+            container.Register(() => mongoClient, Lifestyle.Singleton);
             container.Register<IUserRepository, UserRepository>(Lifestyle.Singleton);
             container.Register<IUserService, UserService.Domain.UserService>(Lifestyle.Singleton);
             container.Register<ICollectionService, CollectionService.Domain.CollectionService>(Lifestyle.Singleton);
@@ -29,8 +32,21 @@ namespace BotRunner
             container.Register<CollectionController>(Lifestyle.Singleton);
             container.Register<ICollectionRepository, CollectionRepository>(Lifestyle.Singleton);
 
+            container = RegisterCollections(container, mongoClient);
             container.Verify();
 
+            return container;
+        }
+
+        private static Container RegisterCollections(Container container, MongoClient mongoClient)
+        {
+            var session = mongoClient;
+            var database = session.GetDatabase($"{Properties.Settings.Default.DbName}");
+            var users = database.GetCollection<User>();
+            var collections = database.GetCollection<Collection>();
+
+            container.Register(() => users, Lifestyle.Singleton);
+            container.Register(() => collections, Lifestyle.Singleton);
             return container;
         }
     }
