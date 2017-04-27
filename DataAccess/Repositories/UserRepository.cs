@@ -17,7 +17,6 @@ namespace DataAccess.Repositories
 
         public async Task UpdateUser(User user)
         {
-
             var filter = Builders<User>.Filter.Eq("Id", user.Id);
             await _userCollection.ReplaceOneAsync(filter, user);
         }

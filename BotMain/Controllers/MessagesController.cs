@@ -13,13 +13,13 @@ namespace BotMain.Controllers
 {
     public class MessagesController
     {
-       
 
-        public static async Task OnStartRoute(Message message)
+        public async Task OnStartRoute(Message message)
         {
-
+            var currentUser = await _userService.GetUserById(message.From.Id);
+            currentUser.UserStatus = UserStatus.New;
+            await _userService.UpdateUser(currentUser);
             await BotMain.Bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
-
             var keyboard = new InlineKeyboardMarkup(new[]
             {
                 new[]
@@ -32,22 +32,20 @@ namespace BotMain.Controllers
                     new InlineKeyboardButton($"{Properties.Resources.HistoryOfDonationsButton}", $"{Properties.Resources.CallbackHistoryOfDonations}"),
                 }
             });
-
             await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
                 $"{Properties.Resources.Hello} {message.From.FirstName} {message.From.LastName} ,{Environment.NewLine} {Properties.Resources.Choose}",
                 replyMarkup: keyboard);
         }
-        public static async Task<User> RequireUser(Message message, User currentUser)
+
+        public async Task<User> RequireUser(Message message)
         {
+            var currentUser = await _userService.GetUserById(message.From.Id);
             if (currentUser == null)
             {
-                var newUser = new User(message.From.Id, message.From.FirstName,
+                currentUser = new User(message.From.Id, message.From.FirstName,
                     message.From.LastName, new List<Collection>(), UserStatus.New, new CollectionMessageBuilder());
-                await _userService.SaveUser(newUser);
-                currentUser = newUser;
+                await _userService.SaveUser(currentUser);
             }
-            currentUser.UserStatus = UserStatus.New; ;
-            await _userService.UpdateUser(currentUser);
             return currentUser;
         }
 
