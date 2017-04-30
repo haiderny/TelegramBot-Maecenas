@@ -19,7 +19,7 @@ namespace CollectionService.Domain
         {
             Require.Positive(userId, nameof(userId));
 
-            return await _collectionRepository.GetCurrrentCollectionsByUserId(userId);
+            return await _collectionRepository.GetCurrentCollectionsByUserId(userId);
         }
 
         public async Task<IEnumerable<Collection>> GetAllCollectionsByUserId(int userId)

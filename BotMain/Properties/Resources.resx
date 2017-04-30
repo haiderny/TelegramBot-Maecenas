@@ -165,4 +165,10 @@
   <data name="TypeException" xml:space="preserve">
     <value>Неверный формат данных. Введите целочисленное значение</value>
   </data>
+  <data name="UpdateEmptyStatusBar" xml:space="preserve">
+    <value>В этом пожертвовании пока ничего не собрано.</value>
+  </data>
+  <data name="UpdateStatusBar" xml:space="preserve">
+    <value>Уже собрано:</value>
+  </data>
 </root>

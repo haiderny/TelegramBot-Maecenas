@@ -16,8 +16,9 @@ namespace BotMain.Controllers
             var enumerator = 1;
             foreach (var collection in allCollections)
             {
-                var keyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardButton(collection.Target, collection.Id) });
-                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"{Properties.Resources.Donation} {enumerator}",
+                if (collection == null) continue;
+                var keyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardButton(collection.Target, collection._id) });
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"{Properties.Resources.Donation} {enumerator}:",
                     replyMarkup: keyboard);
                 enumerator++;
             }
@@ -29,8 +30,9 @@ namespace BotMain.Controllers
             var enumerator = 1;
             foreach (var collection in collections)
             {
-                var keyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardButton(collection.Target, collection.Id) });
-                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"{Properties.Resources.Donation} {enumerator}",
+                if (collection == null) continue;
+                var keyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardButton(collection.Target, collection._id) });
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"{Properties.Resources.Donation} {enumerator}:",
                     replyMarkup: keyboard);
                 enumerator++;
             }
@@ -49,15 +51,19 @@ namespace BotMain.Controllers
         {
             var collection = await _collectionService.GetCollectionById(callbackQuery.Data, callbackQuery.From.Id);
             await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                collection.Target + Environment.NewLine +
-                collection.Donation + Environment.NewLine + collection.Time);
+                $"Цель пожертвования: {collection.Target + Environment.NewLine}" +
+                $"Сумма пожертвования: {collection.Donation + Environment.NewLine}" + 
+                $"Сроки пожертвования: {collection.Time + Environment.NewLine}" +
+                _collectionController.UpdateStatusBar(collection));
         }
 
         private static IUserService _userService;
         private static ICollectionService _collectionService;
+        private static CollectionController _collectionController;
 
-        public CallbackController(IUserService userService, ICollectionService collectionService)
+        public CallbackController(IUserService userService, ICollectionService collectionService, CollectionController collectionController)
         {
+            _collectionController = collectionController;
             _userService = userService;
             _collectionService = collectionService;
         }
