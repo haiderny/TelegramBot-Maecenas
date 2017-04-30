@@ -12,7 +12,7 @@ namespace DataAccess.Repositories
 {
     public class CollectionRepository : ICollectionRepository
     {
-        public async Task<IEnumerable<Collection>> GetCurrrentCollectionsByUserId(int userId)
+        public async Task<IEnumerable<Collection>> GetCurrentCollectionsByUserId(int userId)
         {
             Require.Positive(userId, nameof(userId));
 
@@ -31,7 +31,7 @@ namespace DataAccess.Repositories
         {
             Require.Positive(userId, nameof(userId));
             var user = await _userRepository.GetUserById(userId);
-            var collectionToUpdate = user.Collections.Single(oldCollection => oldCollection.Id == collection.Id);
+            var collectionToUpdate = user.Collections.Single(oldCollection => oldCollection._id == collection._id);
         }
 
         public async Task<Collection> GetCollectionById(string id, int userId)
@@ -39,7 +39,7 @@ namespace DataAccess.Repositories
             Require.NotEmpty(id, nameof(id));
             Require.Positive(userId, nameof(userId));
             var user = await _userRepository.GetUserById(userId);
-            return user.Collections.Single(oldCollection => oldCollection.Id == id);
+            return user.Collections.Single(oldCollection => oldCollection._id == id);
         }
         
         private readonly IUserRepository _userRepository;

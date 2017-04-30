@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CollectionService.Domain;
 using Telegram.Bot.Types;
 using UserService.Application;
@@ -45,7 +46,28 @@ namespace BotMain.Controllers
             await _userService.UpdateUser(user);
             await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.Target} {collection.Target} {Environment.NewLine}" +
                                                                     $"{Properties.Resources.Amount} {collection.Donation} {Environment.NewLine}" +
-                                                                    $"{Properties.Resources.Time} {collection.Time} {Environment.NewLine} ");
+                                                                    $"{Properties.Resources.Time} {collection.Time} {Environment.NewLine} {UpdateStatusBar(collection)}");
+        }
+
+        public string UpdateStatusBar(Collection collection)
+        {
+            var statusBar = string.Empty;
+            var status = collection.Amount / (collection.Donation / 10);
+            if (collection.Amount == 0)
+            {
+                statusBar += $"{Properties.Resources.UpdateEmptyStatusBar}";
+            }
+            else
+            {
+                statusBar += $"{Properties.Resources.UpdateStatusBar}" + Environment.NewLine +
+                             $"{collection.Amount} / {collection.Donation}" + Environment.NewLine;
+            }
+            for (var i = 0; i < status; i++)
+            {
+                statusBar += "\U0001F44D";
+            }
+            statusBar += $" {collection.Amount / ((double)collection.Donation / 100)}%";
+            return statusBar;
         }
 
         private readonly IUserService _userService;

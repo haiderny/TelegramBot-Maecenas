@@ -5,16 +5,18 @@ namespace CollectionService.Domain
 {
     public class Collection
     {
-        public string Id { get; set; }
-        public bool Status { get; private set; }
-        public string Target { get; private set; }
-        public int Donation { get; private set; }
-        public string Time { get; private set; }
+        public string _id { get; set; }
+        public bool Status { get; set; }
+        public string Target { get; set; }
+        public int Donation { get; set; }
+        public int Amount { get; set; }
+        public string Time { get; set; }
         public List<string> Members { get; set; }
 
         public Collection(bool status, string target, int donation, string time)
         {
-            Id = ObjectId.GenerateNewId().ToString();
+            Amount = 0;
+            _id = ObjectId.GenerateNewId().ToString();
             Status = status;
             Target = target;
             Donation = donation;
