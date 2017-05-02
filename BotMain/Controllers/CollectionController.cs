@@ -62,11 +62,11 @@ namespace BotMain.Controllers
                 statusBar += $"{Properties.Resources.UpdateStatusBar}" + Environment.NewLine +
                              $"{collection.Amount} / {collection.Donation}" + Environment.NewLine;
             }
-            for (var i = 0; i < status; i++)
+            for (var i = 0; i < status && i < 10; i++)
             {
                 statusBar += "\U0001F44D";
             }
-            statusBar += $" {collection.Amount / ((double)collection.Donation / 100)}%";
+            statusBar += $" {Math.Round(collection.Amount / ((float)collection.Donation / 100), 1)}%";
             return statusBar;
         }
 
