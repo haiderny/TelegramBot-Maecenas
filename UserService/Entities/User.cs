@@ -13,6 +13,10 @@ namespace UserService.Entities
 
         public List<Collection> Collections { get; set; }
 
+        public int NumberYandexPurse { get; set; }
+
+        public int NumberCreditCard { get; set; }
+
         public UserStatus UserStatus { get; set; }
 
         public CollectionMessageBuilder Builder { get; set; }

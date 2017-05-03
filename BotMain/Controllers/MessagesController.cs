@@ -49,10 +49,49 @@ namespace BotMain.Controllers
             return currentUser;
         }
 
-        private static IUserService _userService;
-
-        public MessagesController(IUserService userService)
+        public async Task AddYandexPurseByUserId(int userId, Message message)
         {
+            var user = await _userService.GetUserById(userId);
+            int number;
+            if (!int.TryParse(message.Text, out number))
+            {
+                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
+                    $"{Properties.Resources.TypeException}");
+            }
+            else
+            {
+                user.NumberYandexPurse = number;
+                await _userService.UpdateUser(user);
+                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.SuccessfullyYandexPurse}");
+                await _settingsController.GetProfileUser(message);
+
+            }
+        }
+
+        public async Task AddCreditCardByUserId(int userId, Message message)
+        {
+            var user = await _userService.GetUserById(userId);
+            int number;
+            if (!int.TryParse(message.Text, out number))
+            {
+                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
+                    $"{Properties.Resources.TypeException}");
+            }
+            else
+            {
+                user.NumberCreditCard = number;
+                await _userService.UpdateUser(user);
+                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.SuccessfullyCreditCard}");
+                await _settingsController.GetProfileUser(message);
+            }
+        }
+
+        private static IUserService _userService;
+        private static ProfileSettingsController _settingsController;
+
+        public MessagesController(IUserService userService, ProfileSettingsController settingsController)
+        {
+            _settingsController = settingsController;
             _userService = userService;
         }
     }

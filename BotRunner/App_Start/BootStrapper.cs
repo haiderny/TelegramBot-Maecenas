@@ -33,6 +33,7 @@ namespace BotRunner
             container.Register<ICollectionRepository, CollectionRepository>(Lifestyle.Singleton);
             container.Register<MessagesController>(Lifestyle.Singleton);
             container.Register<CallbackController>(Lifestyle.Singleton);
+            container.Register<ProfileSettingsController>(Lifestyle.Singleton);
 
             container = RegisterCollections(container, mongoClient);
             container.Verify();
