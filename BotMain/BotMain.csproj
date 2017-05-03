@@ -61,6 +61,7 @@
     <Compile Include="Controllers\CallbackController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Controllers\ProfileSettingsController.cs" />
     <Compile Include="Events\CallbackHandler.cs" />
     <Compile Include="Events\ErrorHandler.cs" />
     <Compile Include="Events\MessageHandler.cs" />

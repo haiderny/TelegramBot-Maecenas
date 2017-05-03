@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddCreditCard" xml:space="preserve">
+    <value>Добавить номер банковской карты</value>
+  </data>
+  <data name="AddYandexPurse" xml:space="preserve">
+    <value>Добавить номер Яндек кошелька</value>
+  </data>
   <data name="Amount" xml:space="preserve">
     <value>Сумма пожертвования:</value>
   </data>
   <data name="AmountDonation" xml:space="preserve">
     <value>Назовите сумму вашего пожертвования</value>
+  </data>
+  <data name="CallbackCreditCard" xml:space="preserve">
+    <value>CreditCard</value>
   </data>
   <data name="CallbackCurrentDonation" xml:space="preserve">
     <value>currentDonation</value>
@@ -129,8 +138,14 @@
   <data name="CallbackHistoryOfDonations" xml:space="preserve">
     <value>historyOfDonations</value>
   </data>
+  <data name="CallbackYandexPurse" xml:space="preserve">
+    <value>YandexPurse</value>
+  </data>
   <data name="Choose" xml:space="preserve">
     <value>Укажите ваше дальнейшее действие:</value>
+  </data>
+  <data name="CreditCard" xml:space="preserve">
+    <value>Номер банковской карты</value>
   </data>
   <data name="CurrentDonationButton" xml:space="preserve">
     <value>Текущее пожертвование</value>
@@ -144,6 +159,12 @@
   <data name="HistoryOfDonationsButton" xml:space="preserve">
     <value>История пожертвований</value>
   </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
   <data name="NewCallbackDonation" xml:space="preserve">
     <value>newDonation</value>
   </data>
@@ -152,6 +173,18 @@
   </data>
   <data name="NewDonationButton" xml:space="preserve">
     <value>Новое пожертвование</value>
+  </data>
+  <data name="NumberAllCollections" xml:space="preserve">
+    <value>Количество всех пожертвований</value>
+  </data>
+  <data name="NumberCurrentCollections" xml:space="preserve">
+    <value>Количество текущих пожертвований</value>
+  </data>
+  <data name="SuccessfullyCreditCard" xml:space="preserve">
+    <value>Номер банковской карты успешно добавлен</value>
+  </data>
+  <data name="SuccessfullyYandexPurse" xml:space="preserve">
+    <value>Номер Яндекс кошелька успешно добавлен</value>
   </data>
   <data name="Target" xml:space="preserve">
     <value>Цель пожертвования:</value>
@@ -170,5 +203,14 @@
   </data>
   <data name="UpdateStatusBar" xml:space="preserve">
     <value>Уже собрано:</value>
+  </data>
+  <data name="WriteCreditCard" xml:space="preserve">
+    <value>Напишите номер банковской карты</value>
+  </data>
+  <data name="WriteYandexPurse" xml:space="preserve">
+    <value>Напишите номер Яндекс кошелька</value>
+  </data>
+  <data name="YandexPurse" xml:space="preserve">
+    <value>Номер Яндекс кошелька</value>
   </data>
 </root>

@@ -51,9 +51,9 @@ namespace BotMain.Controllers
         {
             var collection = await _collectionService.GetCollectionById(callbackQuery.Data, callbackQuery.From.Id);
             await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                $"Цель пожертвования: {collection.Target + Environment.NewLine}" +
-                $"Сумма пожертвования: {collection.Donation + Environment.NewLine}" + 
-                $"Сроки пожертвования: {collection.Time + Environment.NewLine}" +
+                $"{Properties.Resources.Target}: {collection.Target + Environment.NewLine}" +
+                $"{Properties.Resources.Donation}: {collection.Donation + Environment.NewLine}" + 
+                $"{Properties.Resources.Time}: {collection.Time + Environment.NewLine}" +
                 _collectionController.UpdateStatusBar(collection));
         }
 

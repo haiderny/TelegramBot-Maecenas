@@ -1,6 +1,8 @@
 ﻿using BotMain.Controllers;
 using Journalist;
 using Telegram.Bot.Args;
+using UserService.Application;
+using UserService.Entities;
 
 namespace BotMain.Events
 {
@@ -11,6 +13,8 @@ namespace BotMain.Events
             var callbackQuery = callbackQueryEventArgs.CallbackQuery;
 
             Require.NotNull(callbackQuery, nameof(callbackQuery));
+
+            var currentUser = await _userService.GetUserById(callbackQuery.From.Id);
 
             switch (callbackQuery.Data)
             {
@@ -32,6 +36,24 @@ namespace BotMain.Events
                     break;
                 }
 
+                case "CreditCard":
+                {
+                    currentUser.UserStatus = UserStatus.AddCreditCard;
+                    await _userService.UpdateUser(currentUser);
+                    await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
+                        $"{Properties.Resources.WriteCreditCard}");
+                        break;
+                }
+
+                case "YandexPurse":
+                {
+                    currentUser.UserStatus = UserStatus.AddYandexPurse;
+                    await _userService.UpdateUser(currentUser);
+                        await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
+                        $"{Properties.Resources.WriteYandexPurse}");
+                    break;
+                }
+
                 default:
                 {
                     await _callbackController.GetViewCollection(callbackQuery);
@@ -41,10 +63,12 @@ namespace BotMain.Events
         }
 
         private static CallbackController _callbackController;
+        private static IUserService _userService;
 
-        public CallbackHandler(CallbackController callbackController)
+        public CallbackHandler(CallbackController callbackController, IUserService userService)
         {
             _callbackController = callbackController;
+            _userService = userService;
         }
     }
 }
