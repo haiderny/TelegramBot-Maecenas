@@ -36,6 +36,9 @@ namespace BotMain.Events
                 case UserStatus.Time:
                     _collectionController.AddTimeToCollection(currentUser, message);
                     break;
+                case UserStatus.AddCardNumber:
+                    _collectionController.AddCreditCardNumber(currentUser, message);
+                    break;
             }
         }
 

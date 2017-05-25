@@ -205,12 +205,6 @@
     <value>Уже собрано:</value>
   </data>
   <data name="WriteCreditCard" xml:space="preserve">
-    <value>Напишите номер банковской карты</value>
-  </data>
-  <data name="WriteYandexPurse" xml:space="preserve">
-    <value>Напишите номер Яндекс кошелька</value>
-  </data>
-  <data name="YandexPurse" xml:space="preserve">
-    <value>Номер Яндекс кошелька</value>
+    <value>Напишите номер банковской карты, на которую вам будут перечисляться средства</value>
   </data>
 </root>

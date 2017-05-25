@@ -10,6 +10,8 @@ namespace CollectionService.Domain
 
         public string Time { get; private set; }
 
+        public double NumberCreditCard { get; private set; }
+
         public void AddTarget(string target)
         {
             Target = target;
@@ -25,9 +27,14 @@ namespace CollectionService.Domain
             Time = time;
         }
 
+        public void AddNumberCard(double number)
+        {
+            NumberCreditCard = number;
+        }
+
         public Collection Build()
         {
-            var collection = new Collection(true, Target, Amount, Time);
+            var collection = new Collection(true, Target, Amount, Time, NumberCreditCard);
             return collection;
         }
     }
