@@ -64,6 +64,7 @@
     <Compile Include="Controllers\ProfileSettingsController.cs" />
     <Compile Include="Events\CallbackHandler.cs" />
     <Compile Include="Events\ErrorHandler.cs" />
+    <Compile Include="Events\InlineQueryHandler.cs" />
     <Compile Include="Events\MessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

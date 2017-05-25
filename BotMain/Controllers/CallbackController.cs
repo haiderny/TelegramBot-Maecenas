@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CollectionService.Application;
+using CollectionService.Domain;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using UserService.Application;
@@ -13,8 +16,13 @@ namespace BotMain.Controllers
         public async Task GetAllDonations(CallbackQuery callbackQuery)
         {
             var allCollections = await _collectionService.GetAllCollectionsByUserId(callbackQuery.From.Id);
+            var collections = allCollections as IList<Collection> ?? allCollections.ToList();
+            if (!collections.Any())
+            {
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "У вас пока нет пожертвований");
+            }
             var enumerator = 1;
-            foreach (var collection in allCollections)
+            foreach (var collection in collections)
             {
                 if (collection == null) continue;
                 var keyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardButton(collection.Target, collection._id) });
@@ -27,8 +35,13 @@ namespace BotMain.Controllers
         public async Task GetCurrentDonations(CallbackQuery callbackQuery)
         {
             var collections = await _collectionService.GetCurrentCollectionsByUserId(callbackQuery.From.Id);
+            var allCollections = collections as IList<Collection> ?? collections.ToList();
+            if (!allCollections.Any())
+            {
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "У вас пока нет пожертвований");
+            }
             var enumerator = 1;
-            foreach (var collection in collections)
+            foreach (var collection in allCollections)
             {
                 if (collection == null) continue;
                 var keyboard = new InlineKeyboardMarkup(new[] { new InlineKeyboardButton(collection.Target, collection._id) });
@@ -51,9 +64,9 @@ namespace BotMain.Controllers
         {
             var collection = await _collectionService.GetCollectionById(callbackQuery.Data, callbackQuery.From.Id);
             await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                $"{Properties.Resources.Target}: {collection.Target + Environment.NewLine}" +
-                $"{Properties.Resources.Donation}: {collection.Donation + Environment.NewLine}" + 
-                $"{Properties.Resources.Time}: {collection.Time + Environment.NewLine}" +
+                $"{Properties.Resources.Target} {collection.Target + Environment.NewLine}" +
+                $"{Properties.Resources.Amount} {collection.Donation + Environment.NewLine}" + 
+                $"{Properties.Resources.Time} {collection.Time + Environment.NewLine}" +
                 _collectionController.UpdateStatusBar(collection));
         }
 

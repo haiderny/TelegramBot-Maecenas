@@ -13,6 +13,7 @@ namespace BotRunner
             BotMain.BotMain.Bot.OnCallbackQuery += CallbackHandler.BotOnReceivedCallback;
             BotMain.BotMain.Bot.OnMessage += MessageHandler.BotOnMessageReceived;
             BotMain.BotMain.Bot.OnReceiveError += ErrorHandler.BotOnErrorReceived;
+            BotMain.BotMain.Bot.OnInlineQuery += InlineQueryHandler.BotOnInlineQueryReceived;
 
             BotMain.BotMain.Bot.StartReceiving();
             Console.ReadLine();

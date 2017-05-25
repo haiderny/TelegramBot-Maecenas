@@ -6,7 +6,5 @@
         Target,
         Amount,
         Time,
-        AddYandexPurse,
-        AddCreditCard
     }
 }

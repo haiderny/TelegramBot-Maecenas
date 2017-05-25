@@ -44,9 +44,12 @@ namespace BotMain.Controllers
             user.Collections.Add(collection);
             user.UserStatus = UserStatus.New;
             await _userService.UpdateUser(user);
-            await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.Target} {collection.Target} {Environment.NewLine}" +
-                                                                    $"{Properties.Resources.Amount} {collection.Donation} {Environment.NewLine}" +
-                                                                    $"{Properties.Resources.Time} {collection.Time} {Environment.NewLine} {UpdateStatusBar(collection)}");
+            await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
+                $"{Properties.Resources.Target} {collection.Target} {Environment.NewLine}" +
+                $"{Properties.Resources.Amount} {collection.Donation} {Environment.NewLine}" +
+                $"{Properties.Resources.Time} {collection.Time} {Environment.NewLine}" +
+                $"{UpdateStatusBar(collection)}{Environment.NewLine}" +
+                $"/start");
         }
 
         public string UpdateStatusBar(Collection collection)

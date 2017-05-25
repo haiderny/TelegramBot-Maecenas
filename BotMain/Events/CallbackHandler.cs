@@ -36,24 +36,6 @@ namespace BotMain.Events
                     break;
                 }
 
-                case "CreditCard":
-                {
-                    currentUser.UserStatus = UserStatus.AddCreditCard;
-                    await _userService.UpdateUser(currentUser);
-                    await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                        $"{Properties.Resources.WriteCreditCard}");
-                        break;
-                }
-
-                case "YandexPurse":
-                {
-                    currentUser.UserStatus = UserStatus.AddYandexPurse;
-                    await _userService.UpdateUser(currentUser);
-                        await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                        $"{Properties.Resources.WriteYandexPurse}");
-                    break;
-                }
-
                 default:
                 {
                     await _callbackController.GetViewCollection(callbackQuery);
