@@ -25,14 +25,22 @@ namespace BotMain.Controllers
                 new[]
                 {
                     new InlineKeyboardButton($"{Properties.Resources.NewDonationButton}", 
-                                             $"{Properties.Resources.NewCallbackDonation}"),
+                                             $"{Properties.Resources.NewCallbackDonation}")
+                },
+                new []
+                {
                     new InlineKeyboardButton($"{Properties.Resources.CurrentDonationButton}",
                                              $"{Properties.Resources.CallbackCurrentDonation}"),
                 },
                 new[]
                 {
                     new InlineKeyboardButton($"{Properties.Resources.HistoryOfDonationsButton}", 
-                                             $"{Properties.Resources.CallbackHistoryOfDonations}"),
+                                             $"{Properties.Resources.CallbackHistoryOfDonations}")
+                },
+                new []
+                {
+                    new InlineKeyboardButton($"{Properties.Resources.CloseDonationButton}",
+                                             $"{Properties.Resources.CloseDonationCallback}"), 
                 }
             });
             await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,

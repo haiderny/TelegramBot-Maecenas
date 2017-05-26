@@ -19,7 +19,8 @@ namespace BotMain.Controllers
             var collections = allCollections as IList<Collection> ?? allCollections.ToList();
             if (!collections.Any())
             {
-                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "У вас пока нет пожертвований");
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
+                    $"{Properties.Resources.NoDonations}");
             }
             var enumerator = 1;
             foreach (var collection in collections)
@@ -38,7 +39,7 @@ namespace BotMain.Controllers
             var allCollections = collections as IList<Collection> ?? collections.ToList();
             if (!allCollections.Any())
             {
-                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "У вас пока нет пожертвований");
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"{Properties.Resources.NoDonations}");
             }
             var enumerator = 1;
             foreach (var collection in allCollections)
@@ -49,6 +50,13 @@ namespace BotMain.Controllers
                     replyMarkup: keyboard);
                 enumerator++;
             }
+        }
+
+        public async Task CloseCurrentDonation(CallbackQuery callbackQuery)
+        {
+            var collection = await _collectionService.GetCollectionById(callbackQuery.Data, callbackQuery.From.Id);
+            collection.Status = false;
+            await _collectionService.UpdateCollection(collection, callbackQuery.From.Id);
         }
 
         public async Task CreateDonation(CallbackQuery callbackQuery)
@@ -63,11 +71,31 @@ namespace BotMain.Controllers
         public async Task GetViewCollection(CallbackQuery callbackQuery)
         {
             var collection = await _collectionService.GetCollectionById(callbackQuery.Data, callbackQuery.From.Id);
-            await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                $"{Properties.Resources.Target} {collection.Target + Environment.NewLine}" +
-                $"{Properties.Resources.Amount} {collection.Donation + Environment.NewLine}" + 
-                $"{Properties.Resources.Time} {collection.Time + Environment.NewLine}" +
-                _collectionController.UpdateStatusBar(collection));
+            var keyboard = new InlineKeyboardMarkup(new[]
+            {
+                new[]
+                {
+                    new InlineKeyboardButton($"{Properties.Resources.CloseDonationButton}",
+                        $"{collection._id}")
+                }
+            });
+            if (collection.Status)
+            {
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
+                    $"{Properties.Resources.Target} {collection.Target + Environment.NewLine}" +
+                    $"{Properties.Resources.Amount} {collection.Donation + Environment.NewLine}" +
+                    $"{Properties.Resources.Time} {collection.Time + Environment.NewLine}" +
+                    _collectionController.UpdateStatusBar(collection), replyMarkup: keyboard);
+            }
+            else
+            {
+                await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
+                    $"{Properties.Resources.Target} {collection.Target + Environment.NewLine}" +
+                    $"{Properties.Resources.Amount} {collection.Donation + Environment.NewLine}" +
+                    $"{Properties.Resources.Time} {collection.Time + Environment.NewLine}" +
+                    _collectionController.UpdateStatusBar(collection) + $"{Environment.NewLine}" +
+                    $"{Properties.Resources.CloseDonation}");
+            }
         }
 
         private static IUserService _userService;

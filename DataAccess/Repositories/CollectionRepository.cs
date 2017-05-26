@@ -29,9 +29,9 @@ namespace DataAccess.Repositories
         {
             Require.Positive(userId, nameof(userId));
             var user = await _userRepository.GetUserById(userId);
-            var collectionToUpdate = user.Collections.Single(oldCollection => oldCollection._id == collection._id);
-
-
+            user.Collections[user.Collections.FindIndex(oldCollection => oldCollection._id == collection._id)] =
+                collection;
+            await _userRepository.UpdateUser(user);
         }
 
         public async Task<Collection> GetCollectionById(string id, int userId)

@@ -86,9 +86,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CollectionService\CollectionService.csproj">
       <Project>{83527d3b-66a6-4928-b9c0-054ba1031752}</Project>

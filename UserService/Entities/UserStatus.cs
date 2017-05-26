@@ -6,6 +6,7 @@
         Target,
         Amount,
         Time,
-        AddCardNumber
+        AddCardNumber,
+        CloseDonation
     }
 }

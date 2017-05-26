@@ -65,7 +65,7 @@ namespace BotMain.Controllers
                     $"{Properties.Resources.Amount} {collection.Donation} {Environment.NewLine}" +
                     $"{Properties.Resources.Time} {collection.Time} {Environment.NewLine}" +
                     $"{UpdateStatusBar(collection)}{Environment.NewLine}" +
-                    $"/start");
+                    $"{Properties.Resources.Continue}");
             }
         }
 

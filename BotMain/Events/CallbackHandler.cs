@@ -16,6 +16,15 @@ namespace BotMain.Events
 
             var currentUser = await _userService.GetUserById(callbackQuery.From.Id);
 
+            switch (currentUser.UserStatus)
+            {
+                case UserStatus.CloseDonation:
+                {
+                    await _callbackController.CloseCurrentDonation(callbackQuery);
+                    break;
+                }
+            }
+
             switch (callbackQuery.Data)
             {
                 case "newDonation":
@@ -33,6 +42,14 @@ namespace BotMain.Events
                 case "historyOfDonations":
                 {
                     await _callbackController.GetAllDonations(callbackQuery);
+                    break;
+                }
+
+                case "CloseDonation":
+                {
+                    await _callbackController.GetCurrentDonations(callbackQuery);
+                    currentUser.UserStatus = UserStatus.CloseDonation;
+                    await _userService.UpdateUser(currentUser);
                     break;
                 }
 
