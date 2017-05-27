@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using CollectionService.Domain;
 using Telegram.Bot.Types;
 using UserService.Application;

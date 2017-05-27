@@ -1,5 +1,4 @@
 ﻿using BotMain.Controllers;
-using CollectionService.Domain;
 using Journalist;
 using Telegram.Bot.Args;
 using UserService.Entities;
