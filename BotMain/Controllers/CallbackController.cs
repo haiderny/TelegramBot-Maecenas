@@ -71,21 +71,13 @@ namespace BotMain.Controllers
         public async Task GetViewCollection(CallbackQuery callbackQuery)
         {
             var collection = await _collectionService.GetCollectionById(callbackQuery.Data, int.Parse(callbackQuery.From.Id));
-            var keyboard = new InlineKeyboardMarkup(new[]
-            {
-                new[]
-                {
-                    new InlineKeyboardButton($"{Properties.Resources.CloseDonationButton}",
-                        $"{collection._id}")
-                }
-            });
             if (collection.Status)
             {
                 await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
                     $"{Properties.Resources.Target} {collection.Target + Environment.NewLine}" +
                     $"{Properties.Resources.Amount} {collection.Donation + Environment.NewLine}" +
                     $"{Properties.Resources.Time} {collection.Time + Environment.NewLine}" +
-                    _collectionController.UpdateStatusBar(collection), replyMarkup: keyboard);
+                    _collectionController.UpdateStatusBar(collection));
             }
             else
             {
@@ -93,8 +85,7 @@ namespace BotMain.Controllers
                     $"{Properties.Resources.Target} {collection.Target + Environment.NewLine}" +
                     $"{Properties.Resources.Amount} {collection.Donation + Environment.NewLine}" +
                     $"{Properties.Resources.Time} {collection.Time + Environment.NewLine}" +
-                    _collectionController.UpdateStatusBar(collection) + $"{Environment.NewLine}" +
-                    $"{Properties.Resources.CloseDonation}");
+                    _collectionController.UpdateStatusBar(collection));
             }
         }
 

@@ -14,6 +14,12 @@ namespace BotMain.Events
 
             Require.NotNull(callbackQuery, nameof(callbackQuery));
 
+            if (callbackQuery.Data == "Pay")
+            {
+                await BotMain.Bot.AnswerCallbackQueryAsync(callbackQuery.Id, "How pay suka?");
+                return;
+            }
+
             var currentUser = await _userService.GetUserById(int.Parse(callbackQuery.From.Id));
 
             switch (currentUser.UserStatus)

@@ -5,8 +5,10 @@ using BotMain.Controllers;
 using CollectionService.Application;
 using CollectionService.Domain;
 using Telegram.Bot.Args;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
+using Telegram.Bot.Types.ReplyMarkups;
 using UserService.Application;
 
 namespace BotMain.Events
@@ -16,33 +18,38 @@ namespace BotMain.Events
         public static async void BotOnInlineQueryReceived(object sender, InlineQueryEventArgs inlineQueryEventArgs)
         {
             var inlineQuery = inlineQueryEventArgs.InlineQuery;
-            if (inlineQuery.Query == "/current")
+            switch (inlineQuery.Query)
             {
-                var allCollection = await _collectionService.GetCurrentCollectionsByUserId(int.Parse(inlineQuery.From.Id));
-                var collections = allCollection as IList<Collection> ?? allCollection.ToList();
-                var results = new InlineQueryResult[collections.Count()];
-                var enumerator = 0;
-                foreach (var collection in collections)
-                {
-                    var result = new InlineQueryResultArticle
+                case "/current":
+                    var allCollection = await _collectionService.GetCurrentCollectionsByUserId(int.Parse(inlineQuery.From.Id));
+                    var collections = allCollection as IList<Collection> ?? allCollection.ToList();
+                    var results = new InlineQueryResult[collections.Count()];
+                    var enumerator = 0;
+                    foreach (var collection in collections)
                     {
-                        Id = collection._id,
-                        Title = collection.Target
-                    };
-                    InputMessageContent message = new InputTextMessageContent
-                    {
-                        MessageText = $"{Properties.Resources.Target} {collection.Target}{Environment.NewLine}" +
-                                      $"{Properties.Resources.Amount} {collection.Amount}{Environment.NewLine}" +
-                                      $"{Properties.Resources.Time} {collection.Time}{Environment.NewLine}" +
-                                      $"{Properties.Resources.UpdateStatusBar} {_collectionController.UpdateStatusBar(collection)}"
-                    };
-                    result.InputMessageContent = message;
-                    results[enumerator] = result;
-                    enumerator++;
+                        var keyboard = new InlineKeyboardMarkup(new []{new InlineKeyboardButton("Внести средства", "Pay"), });
+                        var result = new InlineQueryResultArticle
+                        {
+                            Id = collection._id,
+                            Title = collection.Target,
+                            ReplyMarkup = keyboard
+                        };
+                        InputMessageContent message = new InputTextMessageContent
+                        {
+                            MessageText = $"{Properties.Resources.Target} {collection.Target}{Environment.NewLine}" +
+                                          $"{Properties.Resources.Amount} {collection.Amount}{Environment.NewLine}" +
+                                          $"{Properties.Resources.Time} {collection.Time}{Environment.NewLine}" +
+                                          $"{Properties.Resources.UpdateStatusBar} {_collectionController.UpdateStatusBar(collection)}"
+                        };
+                        result.InputMessageContent = message;
+                    
+                        results[enumerator] = result;
+                        enumerator++;
 
-                }
-                await BotMain.Bot.AnswerInlineQueryAsync(inlineQueryEventArgs.InlineQuery.Id, results, isPersonal: true,
-                    cacheTime: 0);
+                    }
+                    await BotMain.Bot.AnswerInlineQueryAsync(inlineQueryEventArgs.InlineQuery.Id, results, isPersonal: true,
+                        cacheTime: 0);
+                    break;
             }
         }
 

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CollectionService.Domain;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 using UserService.Application;
 using UserService.Entities;
@@ -40,7 +41,7 @@ namespace BotMain.Controllers
                 new []
                 {
                     new InlineKeyboardButton($"{Properties.Resources.CloseDonationButton}",
-                                             $"{Properties.Resources.CloseDonationCallback}"),  
+                                             $"{Properties.Resources.CloseDonationCallback}"),   
                 }
             });
             await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,

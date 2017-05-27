@@ -10,6 +10,5 @@ namespace CollectionService.Application
         Task<IEnumerable<Collection>> GetCurrentCollectionsByUserId(int userId);
         Task<IEnumerable<Collection>> GetAllCollectionsByUserId(int userId);
         Task UpdateCollection(Collection collection, int userId);
-
     }
 }
