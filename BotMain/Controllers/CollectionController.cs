@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using CollectionService.Domain;
 using Telegram.Bot.Types;
 using UserService.Application;
@@ -40,13 +39,33 @@ namespace BotMain.Controllers
         public async void AddTimeToCollection(User user, Message message)
         {
             user.Builder.AddTime(message.Text);
-            var collection = user.Builder.Build();
-            user.Collections.Add(collection);
-            user.UserStatus = UserStatus.New;
+            user.UserStatus = UserStatus.AddCardNumber;
             await _userService.UpdateUser(user);
-            await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.Target} {collection.Target} {Environment.NewLine}" +
-                                                                    $"{Properties.Resources.Amount} {collection.Donation} {Environment.NewLine}" +
-                                                                    $"{Properties.Resources.Time} {collection.Time} {Environment.NewLine} {UpdateStatusBar(collection)}");
+            await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.WriteCreditCard}");
+        }
+
+        public async void AddCreditCardNumber(User user, Message message)
+        {
+            double number;
+            if (!double.TryParse(message.Text, out number))
+            {
+                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
+                    $"{Properties.Resources.TypeException}");
+            }
+            else
+            {
+                user.Builder.AddNumberCard(number);
+                user.UserStatus = UserStatus.New;
+                var collection = user.Builder.Build();
+                user.Collections.Add(collection);
+                await _userService.UpdateUser(user);
+                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
+                    $"{Properties.Resources.Target} {collection.Target} {Environment.NewLine}" +
+                    $"{Properties.Resources.Amount} {collection.Donation} {Environment.NewLine}" +
+                    $"{Properties.Resources.Time} {collection.Time} {Environment.NewLine}" +
+                    $"{UpdateStatusBar(collection)}{Environment.NewLine}" +
+                    $"{Properties.Resources.Continue}");
+            }
         }
 
         public string UpdateStatusBar(Collection collection)
@@ -55,7 +74,7 @@ namespace BotMain.Controllers
             var status = collection.Amount / (collection.Donation / 10);
             if (collection.Amount == 0)
             {
-                statusBar += $"{Properties.Resources.UpdateEmptyStatusBar}";
+                return statusBar += $"{Properties.Resources.UpdateEmptyStatusBar}";
             }
             else
             {

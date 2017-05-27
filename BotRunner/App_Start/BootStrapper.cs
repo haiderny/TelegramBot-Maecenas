@@ -24,6 +24,7 @@ namespace BotRunner
             container.Register<MessageHandler>(Lifestyle.Singleton);
             container.Register<CallbackHandler>(Lifestyle.Singleton);
             container.Register<ErrorHandler>(Lifestyle.Singleton);
+            container.Register<InlineQueryHandler>(Lifestyle.Singleton);
             container.Register(() => mongoClient, Lifestyle.Singleton);
             container.Register<IUserRepository, UserRepository>(Lifestyle.Singleton);
             container.Register<IUserService, UserService.Domain.UserService>(Lifestyle.Singleton);

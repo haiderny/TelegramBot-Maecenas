@@ -64,6 +64,7 @@
     <Compile Include="Controllers\ProfileSettingsController.cs" />
     <Compile Include="Events\CallbackHandler.cs" />
     <Compile Include="Events\ErrorHandler.cs" />
+    <Compile Include="Events\InlineQueryHandler.cs" />
     <Compile Include="Events\MessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -85,9 +86,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CollectionService\CollectionService.csproj">
       <Project>{83527d3b-66a6-4928-b9c0-054ba1031752}</Project>

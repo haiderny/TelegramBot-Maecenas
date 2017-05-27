@@ -16,6 +16,15 @@ namespace BotMain.Events
 
             var currentUser = await _userService.GetUserById(callbackQuery.From.Id);
 
+            switch (currentUser.UserStatus)
+            {
+                case UserStatus.CloseDonation:
+                {
+                    await _callbackController.CloseCurrentDonation(callbackQuery);
+                    break;
+                }
+            }
+
             switch (callbackQuery.Data)
             {
                 case "newDonation":
@@ -36,21 +45,11 @@ namespace BotMain.Events
                     break;
                 }
 
-                case "CreditCard":
+                case "CloseDonation":
                 {
-                    currentUser.UserStatus = UserStatus.AddCreditCard;
+                    await _callbackController.GetCurrentDonations(callbackQuery);
+                    currentUser.UserStatus = UserStatus.CloseDonation;
                     await _userService.UpdateUser(currentUser);
-                    await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                        $"{Properties.Resources.WriteCreditCard}");
-                        break;
-                }
-
-                case "YandexPurse":
-                {
-                    currentUser.UserStatus = UserStatus.AddYandexPurse;
-                    await _userService.UpdateUser(currentUser);
-                        await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                        $"{Properties.Resources.WriteYandexPurse}");
                     break;
                 }
 

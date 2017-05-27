@@ -144,6 +144,18 @@
   <data name="Choose" xml:space="preserve">
     <value>Укажите ваше дальнейшее действие:</value>
   </data>
+  <data name="CloseDonation" xml:space="preserve">
+    <value>Это пожертвование закрыто</value>
+  </data>
+  <data name="CloseDonationButton" xml:space="preserve">
+    <value>Закрыть пожертвование</value>
+  </data>
+  <data name="CloseDonationCallback" xml:space="preserve">
+    <value>CloseDonation</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Нажмите /start для дальнейших действий</value>
+  </data>
   <data name="CreditCard" xml:space="preserve">
     <value>Номер банковской карты</value>
   </data>
@@ -174,17 +186,14 @@
   <data name="NewDonationButton" xml:space="preserve">
     <value>Новое пожертвование</value>
   </data>
+  <data name="NoDonations" xml:space="preserve">
+    <value>У вас пока нет пожертвований</value>
+  </data>
   <data name="NumberAllCollections" xml:space="preserve">
     <value>Количество всех пожертвований</value>
   </data>
   <data name="NumberCurrentCollections" xml:space="preserve">
     <value>Количество текущих пожертвований</value>
-  </data>
-  <data name="SuccessfullyCreditCard" xml:space="preserve">
-    <value>Номер банковской карты успешно добавлен</value>
-  </data>
-  <data name="SuccessfullyYandexPurse" xml:space="preserve">
-    <value>Номер Яндекс кошелька успешно добавлен</value>
   </data>
   <data name="Target" xml:space="preserve">
     <value>Цель пожертвования:</value>
@@ -199,18 +208,12 @@
     <value>Неверный формат данных. Введите целочисленное значение</value>
   </data>
   <data name="UpdateEmptyStatusBar" xml:space="preserve">
-    <value>В этом пожертвовании пока ничего не собрано.</value>
+    <value>В этом пожертвовании ничего не собрано.</value>
   </data>
   <data name="UpdateStatusBar" xml:space="preserve">
     <value>Уже собрано:</value>
   </data>
   <data name="WriteCreditCard" xml:space="preserve">
-    <value>Напишите номер банковской карты</value>
-  </data>
-  <data name="WriteYandexPurse" xml:space="preserve">
-    <value>Напишите номер Яндекс кошелька</value>
-  </data>
-  <data name="YandexPurse" xml:space="preserve">
-    <value>Номер Яндекс кошелька</value>
+    <value>Напишите номер банковской карты, на которую вам будут перечисляться средства</value>
   </data>
 </root>

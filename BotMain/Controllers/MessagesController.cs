@@ -24,16 +24,28 @@ namespace BotMain.Controllers
             {
                 new[]
                 {
-                    new InlineKeyboardButton($"{Properties.Resources.NewDonationButton}", $"{Properties.Resources.NewCallbackDonation}"),
-                    new InlineKeyboardButton($"{Properties.Resources.CurrentDonationButton}", $"{Properties.Resources.CallbackCurrentDonation}"),
+                    new InlineKeyboardButton($"{Properties.Resources.NewDonationButton}", 
+                                             $"{Properties.Resources.NewCallbackDonation}")
+                },
+                new []
+                {
+                    new InlineKeyboardButton($"{Properties.Resources.CurrentDonationButton}",
+                                             $"{Properties.Resources.CallbackCurrentDonation}"),
                 },
                 new[]
                 {
-                    new InlineKeyboardButton($"{Properties.Resources.HistoryOfDonationsButton}", $"{Properties.Resources.CallbackHistoryOfDonations}"),
+                    new InlineKeyboardButton($"{Properties.Resources.HistoryOfDonationsButton}", 
+                                             $"{Properties.Resources.CallbackHistoryOfDonations}")
+                },
+                new []
+                {
+                    new InlineKeyboardButton($"{Properties.Resources.CloseDonationButton}",
+                                             $"{Properties.Resources.CloseDonationCallback}"), 
                 }
             });
             await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
-                $"{Properties.Resources.Hello} {message.From.FirstName} {message.From.LastName} ,{Environment.NewLine} {Properties.Resources.Choose}",
+                $"{Properties.Resources.Hello} {message.From.FirstName} {message.From.LastName} ," +
+                $"{Environment.NewLine} {Properties.Resources.Choose}",
                 replyMarkup: keyboard);
         }
 
@@ -49,49 +61,10 @@ namespace BotMain.Controllers
             return currentUser;
         }
 
-        public async Task AddYandexPurseByUserId(int userId, Message message)
-        {
-            var user = await _userService.GetUserById(userId);
-            int number;
-            if (!int.TryParse(message.Text, out number))
-            {
-                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
-                    $"{Properties.Resources.TypeException}");
-            }
-            else
-            {
-                user.NumberYandexPurse = number;
-                await _userService.UpdateUser(user);
-                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.SuccessfullyYandexPurse}");
-                await _settingsController.GetProfileUser(message);
-
-            }
-        }
-
-        public async Task AddCreditCardByUserId(int userId, Message message)
-        {
-            var user = await _userService.GetUserById(userId);
-            int number;
-            if (!int.TryParse(message.Text, out number))
-            {
-                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
-                    $"{Properties.Resources.TypeException}");
-            }
-            else
-            {
-                user.NumberCreditCard = number;
-                await _userService.UpdateUser(user);
-                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.SuccessfullyCreditCard}");
-                await _settingsController.GetProfileUser(message);
-            }
-        }
-
         private static IUserService _userService;
-        private static ProfileSettingsController _settingsController;
 
-        public MessagesController(IUserService userService, ProfileSettingsController settingsController)
+        public MessagesController(IUserService userService)
         {
-            _settingsController = settingsController;
             _userService = userService;
         }
     }

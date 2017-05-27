@@ -6,7 +6,7 @@
         Target,
         Amount,
         Time,
-        AddYandexPurse,
-        AddCreditCard
+        AddCardNumber,
+        CloseDonation
     }
 }
