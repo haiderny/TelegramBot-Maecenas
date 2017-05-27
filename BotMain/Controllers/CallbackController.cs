@@ -15,7 +15,7 @@ namespace BotMain.Controllers
     {
         public async Task GetAllDonations(CallbackQuery callbackQuery)
         {
-            var allCollections = await _collectionService.GetAllCollectionsByUserId(callbackQuery.From.Id);
+            var allCollections = await _collectionService.GetAllCollectionsByUserId(int.Parse(callbackQuery.From.Id));
             var collections = allCollections as IList<Collection> ?? allCollections.ToList();
             if (!collections.Any())
             {
@@ -35,7 +35,7 @@ namespace BotMain.Controllers
 
         public async Task GetCurrentDonations(CallbackQuery callbackQuery)
         {
-            var collections = await _collectionService.GetCurrentCollectionsByUserId(callbackQuery.From.Id);
+            var collections = await _collectionService.GetCurrentCollectionsByUserId(int.Parse(callbackQuery.From.Id));
             var allCollections = collections as IList<Collection> ?? collections.ToList();
             if (!allCollections.Any())
             {
@@ -54,23 +54,23 @@ namespace BotMain.Controllers
 
         public async Task CloseCurrentDonation(CallbackQuery callbackQuery)
         {
-            var collection = await _collectionService.GetCollectionById(callbackQuery.Data, callbackQuery.From.Id);
+            var collection = await _collectionService.GetCollectionById(callbackQuery.Data, int.Parse(callbackQuery.From.Id));
             collection.Status = false;
-            await _collectionService.UpdateCollection(collection, callbackQuery.From.Id);
+            await _collectionService.UpdateCollection(collection, int.Parse(callbackQuery.From.Id));
         }
 
         public async Task CreateDonation(CallbackQuery callbackQuery)
         {
             await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
                 $"{Properties.Resources.NewDonation}");
-            var user = await _userService.GetUserById(callbackQuery.From.Id);
+            var user = await _userService.GetUserById(int.Parse(callbackQuery.From.Id));
             user.UserStatus = UserStatus.Target;
             await _userService.UpdateUser(user);
         }
 
         public async Task GetViewCollection(CallbackQuery callbackQuery)
         {
-            var collection = await _collectionService.GetCollectionById(callbackQuery.Data, callbackQuery.From.Id);
+            var collection = await _collectionService.GetCollectionById(callbackQuery.Data, int.Parse(callbackQuery.From.Id));
             var keyboard = new InlineKeyboardMarkup(new[]
             {
                 new[]

@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Journalist.LanguageExtensions, Version=0.15.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Journalist.LanguageExtensions.0.15.3\lib\net451\Journalist.LanguageExtensions.dll</HintPath>
+    <Reference Include="Journalist.LanguageExtensions, Version=0.16.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Journalist.LanguageExtensions.0.16.0\lib\net451\Journalist.LanguageExtensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MongoDB.Bson, Version=2.4.3.23, Culture=neutral, processorArchitecture=MSIL">

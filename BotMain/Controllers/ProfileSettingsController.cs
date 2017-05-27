@@ -15,11 +15,11 @@ namespace BotMain.Controllers
     {
         public async Task GetProfileUser(Message message)
         {
-            var currentUser = await _userService.GetUserById(message.From.Id);
+            var currentUser = await _userService.GetUserById(int.Parse(message.From.Id));
             currentUser.UserStatus = UserStatus.New;
             await _userService.UpdateUser(currentUser);
-            var currentCollections = await _collectionService.GetCurrentCollectionsByUserId(message.From.Id);
-            var allCollections = await _collectionService.GetAllCollectionsByUserId(message.From.Id);
+            var currentCollections = await _collectionService.GetCurrentCollectionsByUserId(int.Parse(message.From.Id));
+            var allCollections = await _collectionService.GetAllCollectionsByUserId(int.Parse(message.From.Id));
 
             await SendMessageProfile(message, currentUser, currentCollections, allCollections);
         }

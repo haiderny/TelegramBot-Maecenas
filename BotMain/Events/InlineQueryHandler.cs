@@ -18,7 +18,7 @@ namespace BotMain.Events
             var inlineQuery = inlineQueryEventArgs.InlineQuery;
             if (inlineQuery.Query == "/current")
             {
-                var allCollection = await _collectionService.GetCurrentCollectionsByUserId(inlineQuery.From.Id);
+                var allCollection = await _collectionService.GetCurrentCollectionsByUserId(int.Parse(inlineQuery.From.Id));
                 var collections = allCollection as IList<Collection> ?? allCollection.ToList();
                 var results = new InlineQueryResult[collections.Count()];
                 var enumerator = 0;

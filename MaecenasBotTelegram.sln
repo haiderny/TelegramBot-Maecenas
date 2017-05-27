@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotMain", "BotMain\BotMain.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{2CCD17B8-E17E-4847-9863-F803839D9780}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService", "PaymentService.cs\PaymentService.csproj", "{27A489AD-609F-421E-858D-923D924179A6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{2CCD17B8-E17E-4847-9863-F803839D9780}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CCD17B8-E17E-4847-9863-F803839D9780}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CCD17B8-E17E-4847-9863-F803839D9780}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27A489AD-609F-421E-858D-923D924179A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27A489AD-609F-421E-858D-923D924179A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27A489AD-609F-421E-858D-923D924179A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27A489AD-609F-421E-858D-923D924179A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +55,5 @@ Global
 		{83527D3B-66A6-4928-B9C0-054BA1031752} = {A601AD44-4467-4A6A-B861-5D22AEE58B22}
 		{2B9B409C-F1A5-4DB1-B632-EE449A032A16} = {787874D6-10EE-42AD-A62E-4A2AF79D275C}
 		{2CCD17B8-E17E-4847-9863-F803839D9780} = {A3D2BEC7-ECCB-47B7-8CD0-9ED644C1F1B2}
-		{27A489AD-609F-421E-858D-923D924179A6} = {A601AD44-4467-4A6A-B861-5D22AEE58B22}
 	EndGlobalSection
 EndGlobal

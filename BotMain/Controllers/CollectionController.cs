@@ -74,7 +74,7 @@ namespace BotMain.Controllers
             var status = collection.Amount / (collection.Donation / 10);
             if (collection.Amount == 0)
             {
-                return statusBar += $"{Properties.Resources.UpdateEmptyStatusBar}";
+                return statusBar + $"{Properties.Resources.UpdateEmptyStatusBar}";
             }
             else
             {

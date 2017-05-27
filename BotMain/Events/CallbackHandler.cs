@@ -14,7 +14,7 @@ namespace BotMain.Events
 
             Require.NotNull(callbackQuery, nameof(callbackQuery));
 
-            var currentUser = await _userService.GetUserById(callbackQuery.From.Id);
+            var currentUser = await _userService.GetUserById(int.Parse(callbackQuery.From.Id));
 
             switch (currentUser.UserStatus)
             {
