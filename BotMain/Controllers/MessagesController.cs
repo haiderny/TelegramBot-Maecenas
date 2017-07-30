@@ -56,7 +56,7 @@ namespace BotMain.Controllers
             if (currentUser == null)
             {
                 currentUser = new User(int.Parse(message.From.Id), message.From.FirstName,
-                    message.From.LastName, new List<Collection>(), UserStatus.New, new CollectionMessageBuilder());
+                    message.From.LastName);
                 await _userService.SaveUser(currentUser);
             }
             return currentUser;

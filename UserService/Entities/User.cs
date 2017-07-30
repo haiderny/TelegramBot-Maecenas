@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using CollectionService.Application;
 using CollectionService.Domain;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Serializers;
 
 namespace UserService.Entities
 {
@@ -15,16 +18,17 @@ namespace UserService.Entities
 
         public UserStatus UserStatus { get; set; }
 
-        public CollectionMessageBuilder Builder { get; set; }
+        [BsonSerializer(typeof(ImpliedImplementationInterfaceSerializer<ICollectionMessageBuilder, CollectionMessageBuilder>))]
+        public ICollectionMessageBuilder Builder { get; set; }
 
-        public User(int id, string firstName, string lastName, List<Collection> collections, UserStatus userStatus, CollectionMessageBuilder builder)
+        public User(int id, string firstName, string lastName)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
-            Collections = collections;
-            UserStatus = userStatus;
-            Builder = builder;
+            Collections = new List<Collection>();
+            UserStatus = UserStatus.New;
+            Builder = new CollectionMessageBuilder();
         }
     }
 }

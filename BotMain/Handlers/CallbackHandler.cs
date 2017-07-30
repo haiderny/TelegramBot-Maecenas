@@ -4,7 +4,7 @@ using Telegram.Bot.Args;
 using UserService.Application;
 using UserService.Entities;
 
-namespace BotMain.Events
+namespace BotMain.Handlers
 {
     public class CallbackHandler
     {
@@ -26,7 +26,7 @@ namespace BotMain.Events
             {
                 case UserStatus.CloseDonation:
                 {
-                    await _callbackController.CloseCurrentDonation(callbackQuery);
+                    await _callbackController.CloseCurrentDonation(callbackQuery, currentUser);
                     break;
                 }
             }

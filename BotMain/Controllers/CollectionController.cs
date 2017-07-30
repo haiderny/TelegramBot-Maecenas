@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CollectionService.Domain;
 using Telegram.Bot.Types;
 using UserService.Application;
@@ -35,7 +36,7 @@ namespace BotMain.Controllers
                 await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.TimeDonation}");
             }
         }
-
+        
         public async void AddTimeToCollection(User user, Message message)
         {
             user.Builder.AddTime(message.Text);
@@ -44,6 +45,30 @@ namespace BotMain.Controllers
             await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.WriteCreditCard}");
         }
 
+        public async void AddCreditCard(User user, Message message)
+        {
+
+            ulong number;
+            if (!ulong.TryParse(message.Text, out number))
+            {
+                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.TypeException}");
+            }
+            else
+            {
+                user.Builder.AddNumberCard(number);
+                user.UserStatus = UserStatus.New;
+                var newCollection = user.Builder.Build();
+                user.Collections.Add(newCollection);
+                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
+                    $"{Properties.Resources.Target} {newCollection.Target + Environment.NewLine}" +
+                    $"{Properties.Resources.Amount} {newCollection.Donation + Environment.NewLine}" +
+                    $"{Properties.Resources.Time} {newCollection.Time + Environment.NewLine}" +
+                    UpdateStatusBar(newCollection));
+                user.Builder = new CollectionMessageBuilder();
+                await _userService.UpdateUser(user);
+                await _messagesController.OnStartRoute(message);
+            }
+        }
         public string UpdateStatusBar(Collection collection)
         {
             var statusBar = string.Empty;
@@ -66,10 +91,12 @@ namespace BotMain.Controllers
         }
 
         private readonly IUserService _userService;
+        private readonly MessagesController _messagesController;
 
-        public CollectionController(IUserService userService)
+        public CollectionController(IUserService userService, MessagesController messagesController)
         {
             _userService = userService;
+            _messagesController = messagesController;
         }
     }
 }

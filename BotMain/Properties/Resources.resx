@@ -144,6 +144,9 @@
   <data name="Choose" xml:space="preserve">
     <value>Укажите ваше дальнейшее действие:</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Пожертвование закрыто.</value>
+  </data>
   <data name="CloseDonation" xml:space="preserve">
     <value>Это пожертвование закрыто</value>
   </data>

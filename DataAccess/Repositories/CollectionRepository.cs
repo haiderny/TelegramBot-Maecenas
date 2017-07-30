@@ -13,7 +13,6 @@ namespace DataAccess.Repositories
         public async Task<IEnumerable<Collection>> GetCurrentCollectionsByUserId(int userId)
         {
             Require.Positive(userId, nameof(userId));
-
             var user = await _userRepository.GetUserById(userId);
             return user.Collections.Where(collection => collection.Status);
         }

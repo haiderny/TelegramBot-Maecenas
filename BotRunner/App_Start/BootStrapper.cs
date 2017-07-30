@@ -1,5 +1,6 @@
 ﻿using BotMain.Controllers;
 using BotMain.Events;
+using BotMain.Handlers;
 using CollectionService.Application;
 using CollectionService.Domain;
 using CollectionService.Infrastructure;

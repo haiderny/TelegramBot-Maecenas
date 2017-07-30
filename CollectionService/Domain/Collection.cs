@@ -10,11 +10,11 @@ namespace CollectionService.Domain
         public string Target { get; set; }
         public int Donation { get; set; }
         public int Amount { get; set; }
-        public double NumberCreditCard { get; set; }
+        public ulong NumberCreditCard { get; set; }
         public string Time { get; set; }
         public List<string> Members { get; set; }
 
-        public Collection(bool status, string target, int donation, string time, double numberCreditCard)
+        public Collection(bool status, string target, int donation, string time, ulong numberCreditCard)
         {
             Amount = 0;
             _id = ObjectId.GenerateNewId().ToString();

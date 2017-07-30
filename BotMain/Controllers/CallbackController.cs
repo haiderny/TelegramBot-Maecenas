@@ -8,6 +8,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using UserService.Application;
 using UserService.Entities;
+using User = UserService.Entities.User;
 
 namespace BotMain.Controllers
 {
@@ -52,8 +53,10 @@ namespace BotMain.Controllers
             }
         }
 
-        public async Task CloseCurrentDonation(CallbackQuery callbackQuery)
+        public async Task CloseCurrentDonation(CallbackQuery callbackQuery, User currentUser)
         {
+            currentUser.UserStatus = UserStatus.New;
+            await _userService.UpdateUser(currentUser);
             var collection = await _collectionService.GetCollectionById(callbackQuery.Data, int.Parse(callbackQuery.From.Id));
             collection.Status = false;
             await _collectionService.UpdateCollection(collection, int.Parse(callbackQuery.From.Id));
@@ -85,8 +88,19 @@ namespace BotMain.Controllers
                     $"{Properties.Resources.Target} {collection.Target + Environment.NewLine}" +
                     $"{Properties.Resources.Amount} {collection.Donation + Environment.NewLine}" +
                     $"{Properties.Resources.Time} {collection.Time + Environment.NewLine}" +
-                    _collectionController.UpdateStatusBar(collection));
+                    _collectionController.UpdateStatusBar(collection) + $"{Environment.NewLine}" + 
+                    $"{Properties.Resources.Close}");
             }
+        }
+
+        public async Task GetViewCollection(Collection collection, Message message)
+        {
+
+            await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
+                $"{Properties.Resources.Target} {collection.Target + Environment.NewLine}" +
+                $"{Properties.Resources.Amount} {collection.Donation + Environment.NewLine}" +
+                $"{Properties.Resources.Time} {collection.Time + Environment.NewLine}" +
+                _collectionController.UpdateStatusBar(collection));
         }
 
         private static IUserService _userService;
