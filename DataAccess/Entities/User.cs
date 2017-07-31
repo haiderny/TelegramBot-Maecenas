@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using CollectionService.Application;
-using CollectionService.Domain;
+using DataAccess.Application;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Serializers;
 
-namespace UserService.Entities
+namespace DataAccess.Entities
 {
     public class User
     {
@@ -14,7 +13,7 @@ namespace UserService.Entities
 
         public string LastName { get; set; }
 
-        public List<Collection> Collections { get; set; }
+        public IList<Collection> Collections { get; set; }
 
         public UserStatus UserStatus { get; set; }
 

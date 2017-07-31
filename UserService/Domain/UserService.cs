@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
+using DataAccess.Application;
+using DataAccess.Entities;
 using Journalist;
-using UserService.Application;
-using UserService.Entities;
-using UserService.Infrastructure;
+using UserService.IService;
+
 
 namespace UserService.Domain
 {

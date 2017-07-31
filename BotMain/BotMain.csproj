@@ -162,6 +162,10 @@
       <Project>{83527d3b-66a6-4928-b9c0-054ba1031752}</Project>
       <Name>CollectionService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{2ccd17b8-e17e-4847-9863-f803839d9780}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserService\UserService.csproj">
       <Project>{eeda9dcc-fef1-4a5a-970e-08467a09812e}</Project>
       <Name>UserService</Name>

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CollectionService.Domain;
+using DataAccess.Entities;
 
-namespace CollectionService.Infrastructure
+namespace DataAccess.Application
 {
     public interface ICollectionRepository
     {

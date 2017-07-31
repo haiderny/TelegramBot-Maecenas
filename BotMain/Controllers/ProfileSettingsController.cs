@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CollectionService.Application;
-using CollectionService.Domain;
+using CollectionService.Interfaces;
+using DataAccess.Entities;
 using Telegram.Bot.Types;
-using UserService.Application;
-using UserService.Entities;
-using User = UserService.Entities.User;
+using UserService.IService;
+using User = DataAccess.Entities.User;
 
 namespace BotMain.Controllers
 {

@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using DataAccess.Application;
+using DataAccess.Entities;
 using Journalist;
 using MongoDB.Driver;
-using UserService.Entities;
-using UserService.Infrastructure;
 
 namespace DataAccess.Repositories
 {

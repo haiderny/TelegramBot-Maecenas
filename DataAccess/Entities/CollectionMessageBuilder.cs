@@ -1,6 +1,6 @@
-﻿using CollectionService.Application;
+﻿using DataAccess.Application;
 
-namespace CollectionService.Domain
+namespace DataAccess.Entities
 {
     public class CollectionMessageBuilder : ICollectionMessageBuilder
     {

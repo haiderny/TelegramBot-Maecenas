@@ -1,4 +1,4 @@
-﻿namespace UserService.Entities
+﻿namespace DataAccess.Entities
 {
     public enum UserStatus
     {

@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using BotMain.Controllers;
-using CollectionService.Application;
-using CollectionService.Domain;
+using CollectionService.Interfaces;
+using DataAccess.Entities;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
-using UserService.Application;
+using UserService.IService;
 
-namespace BotMain.Events
+namespace BotMain.Handlers
 {
     public class InlineQueryHandler
     {

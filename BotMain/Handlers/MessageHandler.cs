@@ -1,12 +1,11 @@
 ﻿using BotMain.Controllers;
+using DataAccess.Entities;
 using Journalist;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
-using UserService.Entities;
 
-namespace BotMain.Events
+namespace BotMain.Handlers
 {
     public class MessageHandler
     {

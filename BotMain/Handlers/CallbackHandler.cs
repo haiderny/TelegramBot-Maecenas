@@ -1,8 +1,8 @@
 ﻿using BotMain.Controllers;
+using DataAccess.Entities;
 using Journalist;
 using Telegram.Bot.Args;
-using UserService.Application;
-using UserService.Entities;
+using UserService.IService;
 
 namespace BotMain.Handlers
 {

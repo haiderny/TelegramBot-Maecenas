@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MongoDB.Bson;
 
-namespace CollectionService.Domain
+namespace DataAccess.Entities
 {
     public class Collection
     {

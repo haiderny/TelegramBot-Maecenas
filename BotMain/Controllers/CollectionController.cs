@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
-using CollectionService.Domain;
+using System.Linq;
+using DataAccess.Entities;
 using Telegram.Bot.Types;
-using UserService.Application;
-using UserService.Entities;
-using User = UserService.Entities.User;
+using UserService.IService;
+using User = DataAccess.Entities.User;
 
 namespace BotMain.Controllers
 {

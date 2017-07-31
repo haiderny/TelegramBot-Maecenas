@@ -60,6 +60,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Collection.cs" />
+    <Compile Include="Entities\CollectionMessageBuilder.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\UserStatus.cs" />
+    <Compile Include="Application\ICollectionMessageBuilder.cs" />
+    <Compile Include="Application\ICollectionRepository.cs" />
+    <Compile Include="Application\IUserRepository.cs" />
     <Compile Include="MongoDriverExtentions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -77,16 +84,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CollectionService\CollectionService.csproj">
-      <Project>{83527d3b-66a6-4928-b9c0-054ba1031752}</Project>
-      <Name>CollectionService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UserService\UserService.csproj">
-      <Project>{eeda9dcc-fef1-4a5a-970e-08467a09812e}</Project>
-      <Name>UserService</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
