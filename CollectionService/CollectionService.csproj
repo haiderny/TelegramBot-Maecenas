@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Journalist.LanguageExtensions, Version=0.15.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Journalist.LanguageExtensions.0.15.3\lib\net451\Journalist.LanguageExtensions.dll</HintPath>
+    <Reference Include="Journalist.LanguageExtensions, Version=0.16.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Journalist.LanguageExtensions.0.16.0\lib\net451\Journalist.LanguageExtensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MongoDB.Bson, Version=2.4.3.23, Culture=neutral, processorArchitecture=MSIL">
@@ -60,17 +60,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\ICollectionMessageBuilder.cs" />
-    <Compile Include="Application\ICollectionService.cs" />
-    <Compile Include="Domain\Collection.cs" />
-    <Compile Include="Domain\CollectionMessageBuilder.cs" />
+    <Compile Include="Domain\CollectionBuilder.cs" />
+    <Compile Include="Interfaces\ICollectionBuilder.cs" />
+    <Compile Include="Interfaces\ICollectionService.cs" />
     <Compile Include="Domain\CollectionService.cs" />
-    <Compile Include="Infrastructure\ICollectionRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{2ccd17b8-e17e-4847-9863-f803839d9780}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

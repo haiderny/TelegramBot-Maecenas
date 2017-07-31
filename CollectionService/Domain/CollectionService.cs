@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CollectionService.Application;
-using CollectionService.Infrastructure;
+using CollectionService.Interfaces;
+using DataAccess.Application;
+using DataAccess.Entities;
 using Journalist;
 
 namespace CollectionService.Domain

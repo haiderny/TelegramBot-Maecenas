@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using UserService.Entities;
+using DataAccess.Entities;
 
-namespace UserService.Infrastructure
+namespace DataAccess.Application
 {
     public interface IUserRepository
     {

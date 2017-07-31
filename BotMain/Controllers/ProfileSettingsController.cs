@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CollectionService.Application;
-using CollectionService.Domain;
+using CollectionService.Interfaces;
+using DataAccess.Entities;
 using Telegram.Bot.Types;
-using UserService.Application;
-using UserService.Entities;
-using User = UserService.Entities.User;
+using UserService.IService;
+using User = DataAccess.Entities.User;
 
 namespace BotMain.Controllers
 {
@@ -15,11 +14,11 @@ namespace BotMain.Controllers
     {
         public async Task GetProfileUser(Message message)
         {
-            var currentUser = await _userService.GetUserById(message.From.Id);
+            var currentUser = await _userService.GetUserById(int.Parse(message.From.Id));
             currentUser.UserStatus = UserStatus.New;
             await _userService.UpdateUser(currentUser);
-            var currentCollections = await _collectionService.GetCurrentCollectionsByUserId(message.From.Id);
-            var allCollections = await _collectionService.GetAllCollectionsByUserId(message.From.Id);
+            var currentCollections = await _collectionService.GetCurrentCollectionsByUserId(int.Parse(message.From.Id));
+            var allCollections = await _collectionService.GetAllCollectionsByUserId(int.Parse(message.From.Id));
 
             await SendMessageProfile(message, currentUser, currentCollections, allCollections);
         }

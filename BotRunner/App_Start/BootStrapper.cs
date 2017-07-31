@@ -1,16 +1,16 @@
 ﻿using BotMain.Controllers;
 using BotMain.Events;
-using CollectionService.Application;
+using BotMain.Handlers;
 using CollectionService.Domain;
-using CollectionService.Infrastructure;
+using CollectionService.Interfaces;
 using DataAccess;
+using DataAccess.Application;
+using DataAccess.Entities;
 using DataAccess.Repositories;
 using MongoDB.Driver;
 using SimpleInjector;
 using Telegram.Bot;
-using UserService.Application;
-using UserService.Entities;
-using UserService.Infrastructure;
+using UserService.IService;
 
 namespace BotRunner
 {

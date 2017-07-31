@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CollectionService.Domain;
-using CollectionService.Infrastructure;
+using DataAccess.Application;
+using DataAccess.Entities;
 using Journalist;
-using UserService.Infrastructure;
 
 namespace DataAccess.Repositories
 {
@@ -13,7 +14,6 @@ namespace DataAccess.Repositories
         public async Task<IEnumerable<Collection>> GetCurrentCollectionsByUserId(int userId)
         {
             Require.Positive(userId, nameof(userId));
-
             var user = await _userRepository.GetUserById(userId);
             return user.Collections.Where(collection => collection.Status);
         }
@@ -29,7 +29,8 @@ namespace DataAccess.Repositories
         {
             Require.Positive(userId, nameof(userId));
             var user = await _userRepository.GetUserById(userId);
-            user.Collections[user.Collections.FindIndex(oldCollection => oldCollection._id == collection._id)] =
+            var collectionsOfUser = user.Collections as List<Collection> ?? user.Collections.ToList();
+            collectionsOfUser[collectionsOfUser.FindIndex(oldCollection => oldCollection._id == collection._id)] =
                 collection;
             await _userRepository.UpdateUser(user);
         }

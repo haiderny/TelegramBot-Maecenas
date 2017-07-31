@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using DataAccess.Application;
+using DataAccess.Entities;
 using Journalist;
 using MongoDB.Driver;
-using UserService.Entities;
-using UserService.Infrastructure;
 
 namespace DataAccess.Repositories
 {
@@ -17,6 +17,7 @@ namespace DataAccess.Repositories
 
         public async Task UpdateUser(User user)
         {
+            Require.NotNull(user, nameof(user));
             var filter = Builders<User>.Filter.Eq("Id", user.Id);
             await _userCollection.ReplaceOneAsync(filter, user);
         }
@@ -24,7 +25,6 @@ namespace DataAccess.Repositories
         public Task CreateUser(User user)
         {
             Require.NotNull(user, nameof(user));
-
             return _userCollection.InsertOneAsync(user);
         }
         

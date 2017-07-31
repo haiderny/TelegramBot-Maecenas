@@ -1,9 +1,11 @@
 ﻿using BotMain.Controllers;
+using DataAccess.Entities;
 using Journalist;
 using Telegram.Bot.Args;
-using UserService.Entities;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
-namespace BotMain.Events
+namespace BotMain.Handlers
 {
     public class MessageHandler
     {
@@ -23,6 +25,18 @@ namespace BotMain.Events
                 case "/profile":
                     await _profileSettings.GetProfileUser(message);
                     break;
+                case "/pay":
+                {
+                    var button = new InlineKeyboardButton("hui", "hui");
+                    button.Pay = true;
+                    var keyboard = new InlineKeyboardMarkup(new[]
+                        {
+                            button
+                        }
+                    );
+                    await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Message", replyMarkup: keyboard);
+                    break;
+                }
             }
             switch (currentUser.UserStatus)
             {
@@ -36,7 +50,7 @@ namespace BotMain.Events
                     _collectionController.AddTimeToCollection(currentUser, message);
                     break;
                 case UserStatus.AddCardNumber:
-                    _collectionController.AddCreditCardNumber(currentUser, message);
+                    _collectionController.AddCreditCard(currentUser, message);
                     break;
             }
         }

@@ -1,6 +1,6 @@
-﻿using CollectionService.Application;
+﻿using DataAccess.Application;
 
-namespace CollectionService.Domain
+namespace DataAccess.Entities
 {
     public class CollectionMessageBuilder : ICollectionMessageBuilder
     {
@@ -10,7 +10,7 @@ namespace CollectionService.Domain
 
         public string Time { get; private set; }
 
-        public double NumberCreditCard { get; private set; }
+        public ulong NumberCreditCard { get; private set; }
 
         public void AddTarget(string target)
         {
@@ -27,7 +27,7 @@ namespace CollectionService.Domain
             Time = time;
         }
 
-        public void AddNumberCard(double number)
+        public void AddNumberCard(ulong number)
         {
             NumberCreditCard = number;
         }

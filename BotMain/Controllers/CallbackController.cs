@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CollectionService.Application;
-using CollectionService.Domain;
+using CollectionService.Interfaces;
+using DataAccess.Entities;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
-using UserService.Application;
-using UserService.Entities;
+using UserService.IService;
+using User = DataAccess.Entities.User;
 
 namespace BotMain.Controllers
 {
@@ -15,7 +15,7 @@ namespace BotMain.Controllers
     {
         public async Task GetAllDonations(CallbackQuery callbackQuery)
         {
-            var allCollections = await _collectionService.GetAllCollectionsByUserId(callbackQuery.From.Id);
+            var allCollections = await _collectionService.GetAllCollectionsByUserId(int.Parse(callbackQuery.From.Id));
             var collections = allCollections as IList<Collection> ?? allCollections.ToList();
             if (!collections.Any())
             {
@@ -35,7 +35,7 @@ namespace BotMain.Controllers
 
         public async Task GetCurrentDonations(CallbackQuery callbackQuery)
         {
-            var collections = await _collectionService.GetCurrentCollectionsByUserId(callbackQuery.From.Id);
+            var collections = await _collectionService.GetCurrentCollectionsByUserId(int.Parse(callbackQuery.From.Id));
             var allCollections = collections as IList<Collection> ?? collections.ToList();
             if (!allCollections.Any())
             {
@@ -52,40 +52,34 @@ namespace BotMain.Controllers
             }
         }
 
-        public async Task CloseCurrentDonation(CallbackQuery callbackQuery)
+        public async Task CloseCurrentDonation(CallbackQuery callbackQuery, User currentUser)
         {
-            var collection = await _collectionService.GetCollectionById(callbackQuery.Data, callbackQuery.From.Id);
+            currentUser.UserStatus = UserStatus.New;
+            await _userService.UpdateUser(currentUser);
+            var collection = await _collectionService.GetCollectionById(callbackQuery.Data, int.Parse(callbackQuery.From.Id));
             collection.Status = false;
-            await _collectionService.UpdateCollection(collection, callbackQuery.From.Id);
+            await _collectionService.UpdateCollection(collection, int.Parse(callbackQuery.From.Id));
         }
 
         public async Task CreateDonation(CallbackQuery callbackQuery)
         {
             await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
                 $"{Properties.Resources.NewDonation}");
-            var user = await _userService.GetUserById(callbackQuery.From.Id);
+            var user = await _userService.GetUserById(int.Parse(callbackQuery.From.Id));
             user.UserStatus = UserStatus.Target;
             await _userService.UpdateUser(user);
         }
 
         public async Task GetViewCollection(CallbackQuery callbackQuery)
         {
-            var collection = await _collectionService.GetCollectionById(callbackQuery.Data, callbackQuery.From.Id);
-            var keyboard = new InlineKeyboardMarkup(new[]
-            {
-                new[]
-                {
-                    new InlineKeyboardButton($"{Properties.Resources.CloseDonationButton}",
-                        $"{collection._id}")
-                }
-            });
+            var collection = await _collectionService.GetCollectionById(callbackQuery.Data, int.Parse(callbackQuery.From.Id));
             if (collection.Status)
             {
                 await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
                     $"{Properties.Resources.Target} {collection.Target + Environment.NewLine}" +
                     $"{Properties.Resources.Amount} {collection.Donation + Environment.NewLine}" +
                     $"{Properties.Resources.Time} {collection.Time + Environment.NewLine}" +
-                    _collectionController.UpdateStatusBar(collection), replyMarkup: keyboard);
+                    _collectionController.UpdateStatusBar(collection));
             }
             else
             {
@@ -93,9 +87,19 @@ namespace BotMain.Controllers
                     $"{Properties.Resources.Target} {collection.Target + Environment.NewLine}" +
                     $"{Properties.Resources.Amount} {collection.Donation + Environment.NewLine}" +
                     $"{Properties.Resources.Time} {collection.Time + Environment.NewLine}" +
-                    _collectionController.UpdateStatusBar(collection) + $"{Environment.NewLine}" +
-                    $"{Properties.Resources.CloseDonation}");
+                    _collectionController.UpdateStatusBar(collection) + $"{Environment.NewLine}" + 
+                    $"{Properties.Resources.Close}");
             }
+        }
+
+        public async Task GetViewCollection(Collection collection, Message message)
+        {
+
+            await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
+                $"{Properties.Resources.Target} {collection.Target + Environment.NewLine}" +
+                $"{Properties.Resources.Amount} {collection.Donation + Environment.NewLine}" +
+                $"{Properties.Resources.Time} {collection.Time + Environment.NewLine}" +
+                _collectionController.UpdateStatusBar(collection));
         }
 
         private static IUserService _userService;

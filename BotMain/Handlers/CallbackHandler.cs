@@ -1,10 +1,10 @@
 ﻿using BotMain.Controllers;
+using DataAccess.Entities;
 using Journalist;
 using Telegram.Bot.Args;
-using UserService.Application;
-using UserService.Entities;
+using UserService.IService;
 
-namespace BotMain.Events
+namespace BotMain.Handlers
 {
     public class CallbackHandler
     {
@@ -14,13 +14,19 @@ namespace BotMain.Events
 
             Require.NotNull(callbackQuery, nameof(callbackQuery));
 
-            var currentUser = await _userService.GetUserById(callbackQuery.From.Id);
+            if (callbackQuery.Data == "Pay")
+            {
+                await BotMain.Bot.AnswerCallbackQueryAsync(callbackQuery.Id, "How pay suka?");
+                return;
+            }
+
+            var currentUser = await _userService.GetUserById(int.Parse(callbackQuery.From.Id));
 
             switch (currentUser.UserStatus)
             {
                 case UserStatus.CloseDonation:
                 {
-                    await _callbackController.CloseCurrentDonation(callbackQuery);
+                    await _callbackController.CloseCurrentDonation(callbackQuery, currentUser);
                     break;
                 }
             }

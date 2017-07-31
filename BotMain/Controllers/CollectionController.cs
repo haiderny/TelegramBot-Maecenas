@@ -1,9 +1,9 @@
 ﻿using System;
-using CollectionService.Domain;
+using System.Linq;
+using DataAccess.Entities;
 using Telegram.Bot.Types;
-using UserService.Application;
-using UserService.Entities;
-using User = UserService.Entities.User;
+using UserService.IService;
+using User = DataAccess.Entities.User;
 
 namespace BotMain.Controllers
 {
@@ -35,7 +35,7 @@ namespace BotMain.Controllers
                 await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.TimeDonation}");
             }
         }
-
+        
         public async void AddTimeToCollection(User user, Message message)
         {
             user.Builder.AddTime(message.Text);
@@ -44,37 +44,37 @@ namespace BotMain.Controllers
             await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.WriteCreditCard}");
         }
 
-        public async void AddCreditCardNumber(User user, Message message)
+        public async void AddCreditCard(User user, Message message)
         {
-            double number;
-            if (!double.TryParse(message.Text, out number))
+
+            ulong number;
+            if (!ulong.TryParse(message.Text, out number))
             {
-                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
-                    $"{Properties.Resources.TypeException}");
+                await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, $"{Properties.Resources.TypeException}");
             }
             else
             {
                 user.Builder.AddNumberCard(number);
                 user.UserStatus = UserStatus.New;
-                var collection = user.Builder.Build();
-                user.Collections.Add(collection);
-                await _userService.UpdateUser(user);
+                var newCollection = user.Builder.Build();
+                user.Collections.Add(newCollection);
                 await BotMain.Bot.SendTextMessageAsync(message.Chat.Id,
-                    $"{Properties.Resources.Target} {collection.Target} {Environment.NewLine}" +
-                    $"{Properties.Resources.Amount} {collection.Donation} {Environment.NewLine}" +
-                    $"{Properties.Resources.Time} {collection.Time} {Environment.NewLine}" +
-                    $"{UpdateStatusBar(collection)}{Environment.NewLine}" +
-                    $"{Properties.Resources.Continue}");
+                    $"{Properties.Resources.Target} {newCollection.Target + Environment.NewLine}" +
+                    $"{Properties.Resources.Amount} {newCollection.Donation + Environment.NewLine}" +
+                    $"{Properties.Resources.Time} {newCollection.Time + Environment.NewLine}" +
+                    UpdateStatusBar(newCollection));
+                user.Builder = new CollectionMessageBuilder();
+                await _userService.UpdateUser(user);
+                await _messagesController.OnStartRoute(message);
             }
         }
-
         public string UpdateStatusBar(Collection collection)
         {
             var statusBar = string.Empty;
             var status = collection.Amount / (collection.Donation / 10);
             if (collection.Amount == 0)
             {
-                return statusBar += $"{Properties.Resources.UpdateEmptyStatusBar}";
+                return statusBar + $"{Properties.Resources.UpdateEmptyStatusBar}";
             }
             else
             {
@@ -90,10 +90,12 @@ namespace BotMain.Controllers
         }
 
         private readonly IUserService _userService;
+        private readonly MessagesController _messagesController;
 
-        public CollectionController(IUserService userService)
+        public CollectionController(IUserService userService, MessagesController messagesController)
         {
             _userService = userService;
+            _messagesController = messagesController;
         }
     }
 }
