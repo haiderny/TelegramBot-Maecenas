@@ -2,8 +2,6 @@
 using DataAccess.Entities;
 using Journalist;
 using Telegram.Bot.Args;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.ReplyMarkups;
 
 namespace BotMain.Handlers
 {
@@ -25,18 +23,6 @@ namespace BotMain.Handlers
                 case "/profile":
                     await _profileSettings.GetProfileUser(message);
                     break;
-                case "/pay":
-                {
-                    var button = new InlineKeyboardButton("hui", "hui");
-                    button.Pay = true;
-                    var keyboard = new InlineKeyboardMarkup(new[]
-                        {
-                            button
-                        }
-                    );
-                    await BotMain.Bot.SendTextMessageAsync(message.Chat.Id, "Message", replyMarkup: keyboard);
-                    break;
-                }
             }
             switch (currentUser.UserStatus)
             {

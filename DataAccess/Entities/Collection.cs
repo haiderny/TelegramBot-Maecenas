@@ -14,11 +14,11 @@ namespace DataAccess.Entities
         public string Time { get; set; }
         public List<string> Members { get; set; }
 
-        public Collection(bool status, string target, int donation, string time, ulong numberCreditCard)
+        public Collection(string target, int donation, string time, ulong numberCreditCard)
         {
             Amount = 0;
             _id = ObjectId.GenerateNewId().ToString();
-            Status = status;
+            Status = true;
             Target = target;
             Donation = donation;
             Time = time;

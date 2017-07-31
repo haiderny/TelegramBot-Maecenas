@@ -34,7 +34,7 @@ namespace DataAccess.Entities
 
         public Collection Build()
         {
-            var collection = new Collection(true, Target, Amount, Time, NumberCreditCard);
+            var collection = new Collection(Target, Amount, Time, NumberCreditCard);
             return collection;
         }
     }
