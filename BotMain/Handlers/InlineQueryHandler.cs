@@ -6,6 +6,7 @@ using CollectionService.Interfaces;
 using DataAccess.Entities;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.InlineKeyboardButtons;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -21,13 +22,13 @@ namespace BotMain.Handlers
             switch (inlineQuery.Query)
             {
                 case "/current":
-                    var allCollection = await _collectionService.GetCurrentCollectionsByUserId(int.Parse(inlineQuery.From.Id));
+                    var allCollection = await _collectionService.GetCurrentCollectionsByUserId(inlineQuery.From.Id);
                     var collections = allCollection as IList<Collection> ?? allCollection.ToList();
                     var results = new InlineQueryResult[collections.Count()];
                     var enumerator = 0;
                     foreach (var collection in collections)
                     {
-                        var keyboard = new InlineKeyboardMarkup(new []{new InlineKeyboardButton("Внести средства", "Pay"), });
+                        var keyboard = new InlineKeyboardMarkup(new []{new InlineKeyboardCallbackButton("Внести средства", "Pay"), });
                         var result = new InlineQueryResultArticle
                         {
                             Id = collection._id,

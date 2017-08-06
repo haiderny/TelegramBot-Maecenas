@@ -63,7 +63,6 @@ namespace BotMain.Controllers
                     $"{Properties.Resources.Amount} {newCollection.Donation + Environment.NewLine}" +
                     $"{Properties.Resources.Time} {newCollection.Time + Environment.NewLine}" +
                     UpdateStatusBar(newCollection));
-                user.Builder = new CollectionMessageBuilder();
                 await _userService.UpdateUser(user);
                 await _messagesController.OnStartRoute(message);
             }
@@ -76,11 +75,8 @@ namespace BotMain.Controllers
             {
                 return statusBar + $"{Properties.Resources.UpdateEmptyStatusBar}";
             }
-            else
-            {
-                statusBar += $"{Properties.Resources.UpdateStatusBar}" + Environment.NewLine +
-                             $"{collection.Amount} / {collection.Donation}" + Environment.NewLine;
-            }
+            statusBar += $"{Properties.Resources.UpdateStatusBar}" + Environment.NewLine +
+                         $"{collection.Amount} / {collection.Donation}" + Environment.NewLine;
             for (var i = 0; i < status && i < 10; i++)
             {
                 statusBar += "\U0001F44D";

@@ -1,5 +1,4 @@
 ﻿using BotMain.Controllers;
-using BotMain.Events;
 using BotMain.Handlers;
 using CollectionService.Domain;
 using CollectionService.Interfaces;

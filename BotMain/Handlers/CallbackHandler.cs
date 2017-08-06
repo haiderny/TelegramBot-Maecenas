@@ -16,11 +16,11 @@ namespace BotMain.Handlers
 
             if (callbackQuery.Data == "Pay")
             {
-                await BotMain.Bot.AnswerCallbackQueryAsync(callbackQuery.Id, "How pay suka?");
+                await BotMain.Bot.AnswerCallbackQueryAsync(callbackQuery.Id, "Money");
                 return;
             }
 
-            var currentUser = await _userService.GetUserById(int.Parse(callbackQuery.From.Id));
+            var currentUser = await _userService.GetUserById(callbackQuery.From.Id);
 
             switch (currentUser.UserStatus)
             {
@@ -53,9 +53,9 @@ namespace BotMain.Handlers
 
                 case "CloseDonation":
                 {
-                    await _callbackController.GetCurrentDonations(callbackQuery);
                     currentUser.UserStatus = UserStatus.CloseDonation;
                     await _userService.UpdateUser(currentUser);
+                    await _callbackController.GetCurrentDonations(callbackQuery);
                     break;
                 }
 
