@@ -82,7 +82,6 @@ namespace BotMain.Controllers
                 var keyboard = new InlineKeyboardMarkup(new InlineKeyboardButton[]
                 {
                         InlineKeyboardButton.WithPayment("Внести средства", false),
-                    
                 });
 
                 await BotMain.Bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
